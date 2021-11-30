@@ -5,23 +5,41 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @Document(collection = "transactions")
-@JsonPropertyOrder({ "codTransaccion", "codPedido", "coste", "fechaTarjeta" ,"cv2","numeroTarjeta"})
+@JsonPropertyOrder({ "id", "codPedido", "comprador", "vendedor", "coste", "fechaTransaccion","fechaTarjeta" ,"cv2","tarjeta"})
 public class Transaction {
-	
-	private String codTransaccion;
+	@Id
+	private String id;
 	private String codPedido;
+	private String comprador;
+	private String vendedor;
 	private Long coste;
 	private String fechaTarjeta;
+	private String fechaTransaccion;
 	int cv2;
-	Long numeroTarjeta;
-
-	@Id
-	public String getCodTransaccion() {
-		return codTransaccion;
+	Long tarjeta;
+	
+	@PersistenceConstructor
+	public Transaction(String id, String codPedido, String comprador, String vendedor, Long coste,
+			String fechaTarjeta, String fechaTransaccion, int cv2, Long tarjeta) {
+		
+		this.id = id;
+		this.codPedido = codPedido;
+		this.comprador = comprador;
+		this.vendedor = vendedor;
+		this.coste = coste;
+		this.fechaTarjeta = fechaTarjeta;
+		this.fechaTransaccion = fechaTransaccion;
+		this.cv2 = cv2;
+		this.tarjeta = tarjeta;
+	}
+	
+	
+	public String getId() {
+		return id;
 	}
 
-	public void setCodTransaccion(String codTransaccion) {
-		this.codTransaccion = codTransaccion;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getCodPedido() {
@@ -30,6 +48,22 @@ public class Transaction {
 
 	public void setCodPedido(String codPedido) {
 		this.codPedido = codPedido;
+	}
+
+	public String getComprador() {
+		return comprador;
+	}
+
+	public void setComprador(String comprador) {
+		this.comprador = comprador;
+	}
+
+	public String getVendedor() {
+		return vendedor;
+	}
+
+	public void setVendedor(String vendedor) {
+		this.vendedor = vendedor;
 	}
 
 	public Long getCoste() {
@@ -48,6 +82,14 @@ public class Transaction {
 		this.fechaTarjeta = fechaTarjeta;
 	}
 
+	public String getFechaTransaccion() {
+		return fechaTransaccion;
+	}
+
+	public void setFechaTransaccion(String fechaTransaccion) {
+		this.fechaTransaccion = fechaTransaccion;
+	}
+
 	public int getCv2() {
 		return cv2;
 	}
@@ -56,24 +98,12 @@ public class Transaction {
 		this.cv2 = cv2;
 	}
 
-	public Long getNumeroTarjeta() {
-		return numeroTarjeta;
+	public Long getTarjeta() {
+		return tarjeta;
 	}
 
-	public void setNumeroTarjeta(Long numeroTarjeta) {
-		this.numeroTarjeta = numeroTarjeta;
-	}
-
-	@PersistenceConstructor
-	public Transaction(String codTransaccion, String codPedido, Long coste, String fechaTarjeta,
-			int cv2, Long numeroTarjeta) {
-		super();
-		this.codTransaccion = codTransaccion;
-		this.codPedido = codPedido;
-		this.coste = coste;
-		this.fechaTarjeta = fechaTarjeta;
-		this.cv2 = cv2;
-		this.numeroTarjeta = numeroTarjeta;
+	public void setTarjeta(Long tarjeta) {
+		this.tarjeta = tarjeta;
 	}
 
 	public Transaction() {
