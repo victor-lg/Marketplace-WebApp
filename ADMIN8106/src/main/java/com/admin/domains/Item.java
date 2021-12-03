@@ -1,8 +1,7 @@
-package com.client.model;
+package com.admin.domains;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.List;
 
 
 /**
@@ -23,7 +22,7 @@ public class Item implements Serializable {
 
 	private String description;
 
-	private Object photo;
+	private byte[] photo;
 
 	private float price;
 
@@ -35,10 +34,6 @@ public class Item implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="vendor")
 	private User user;
-
-	//bi-directional many-to-one association to Transaction
-	@OneToMany(mappedBy="item")
-	private List<Transaction> transactions;
 
 	public Item() {
 	}
@@ -67,11 +62,11 @@ public class Item implements Serializable {
 		this.description = description;
 	}
 
-	public Object getPhoto() {
+	public byte[] getPhoto() {
 		return this.photo;
 	}
 
-	public void setPhoto(Object photo) {
+	public void setPhoto(byte[] photo) {
 		this.photo = photo;
 	}
 
@@ -105,28 +100,6 @@ public class Item implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-
-	public List<Transaction> getTransactions() {
-		return this.transactions;
-	}
-
-	public void setTransactions(List<Transaction> transactions) {
-		this.transactions = transactions;
-	}
-
-	public Transaction addTransaction(Transaction transaction) {
-		getTransactions().add(transaction);
-		transaction.setItem(this);
-
-		return transaction;
-	}
-
-	public Transaction removeTransaction(Transaction transaction) {
-		getTransactions().remove(transaction);
-		transaction.setItem(null);
-
-		return transaction;
 	}
 
 }

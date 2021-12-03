@@ -11,15 +11,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.client.RestTemplate;
 
 import com.bank.business.*;
+import com.bank.domains.BankTransaction;
 import com.bank.domains.Transaction;
 import com.bank.domains.TransactionFromClient;
 import com.bank.repositories.BankToFinanceTransactionRepository;
 import com.bank.repositories.BankTransactionRepository;
 
 import java.math.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 @RestController
@@ -35,6 +39,14 @@ public class BankController {
 	@Autowired
 	BankToFinanceTransactionRepository bankToFinanceRepository;
 	
+	@Autowired
+	RestTemplate restTemplate;
+	
+	public void sendToFinance(BankTransaction transactionForFinance) {
+		restTemplate.postForObject("http://localhost:10604/finance/newTransaction", transactionForFinance, BankTransaction.class);
+		
+	}
+	
 	@PostMapping(value = "/transaccion", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ResponseEntity<?> getAuthorization(@RequestBody TransactionFromClient transactionFromClient) {
@@ -49,7 +61,9 @@ public class BankController {
 				
 
 				CodigoTransaccion _codTransacion = new CodigoTransaccion();
-
+				DateFormat objSDF = new SimpleDateFormat("yyyyMMdd");
+				Date _fechaActual = new Date();
+				
 				String _codigoGeneradoDeTransaccion = _codTransacion.generacionCodigoTransaccion(transactionFromClient.getFechaTarjeta());
 				
 				Transaction transaction=new Transaction(_codigoGeneradoDeTransaccion, 
@@ -61,20 +75,20 @@ public class BankController {
 
 						// La tarjeta es valida. Vamos a guardar el pedido y la transaccion en sus respectivos repositorios
 				transactionRepository.save(transaction);
+				
+				BankTransaction transactionForFinance= new BankTransaction(_codigoGeneradoDeTransaccion,
+						transaction.getCodPedido(), 
+						transactionFromClient.getComprador(), 
+						transactionFromClient.getVendedor(), 
+						transaction.getCoste(), 
+						transaction.getFechaTarjeta(), 
+						objSDF.format(_fechaActual).toString(), 
+						transaction.getCv2(), 
+						transaction.getTarjeta().longValue());
+				
+				sendToFinance(transactionForFinance);
 
-				/*AuthorizationTransacionPedido _authorizationTransacionPedido = new AuthorizationTransacionPedido(
-						_codigoGeneradoDeTransaccion, authorization.getCodPedido(), authorization.getCoste(),
-						authorization.getFechaTarjeta(), authorization.getCv2(), authorization.getNumeroTarjeta());
-
-				TransaccionConciliacion _transaccionConciliacion = new TransaccionConciliacion(_codigoGeneradoDeTransaccion,
-						String.valueOf(authorization.getCoste()), authorization.getFechaTarjeta());
-
-				transaccionConciliacionRepository.save(_transaccionConciliacion);
-
-				// Si quermos guardar _authorizationTransacionPedido en la coleccion de financiera
-				authorizationTransacionPedidoRepository.save(_authorizationTransacionPedido);*/
-
-				return new ResponseEntity<>(HttpStatus.OK);
+				return new ResponseEntity<>(transaction, HttpStatus.OK);
 
 			} else {
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

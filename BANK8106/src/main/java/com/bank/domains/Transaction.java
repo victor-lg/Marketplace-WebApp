@@ -25,7 +25,6 @@ public class Transaction implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private String id;
 
 	@Column(name="cod_pedido")
@@ -35,7 +34,7 @@ public class Transaction implements Serializable {
 
 	private int cv2;
 
-	@Column(name="fechaTarjeta")
+	@Column(name="fecha_tarjeta")
 	private String fechaTarjeta;
 
 	private BigInteger tarjeta;

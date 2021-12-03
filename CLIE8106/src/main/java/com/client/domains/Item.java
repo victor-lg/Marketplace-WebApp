@@ -1,4 +1,4 @@
-package com.catalogue.domains;
+package com.client.domains;
 
 import java.io.Serializable;
 import javax.persistence.*;
