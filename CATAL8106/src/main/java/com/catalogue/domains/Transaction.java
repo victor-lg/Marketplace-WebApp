@@ -1,10 +1,7 @@
-package com.catalogue.model;
+package com.catalogue.domains;
 
 import java.io.Serializable;
 import javax.persistence.*;
-
-import com.catalogue.model.Item;
-
 import java.math.BigInteger;
 
 
@@ -19,39 +16,37 @@ public class Transaction implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private String idtransactions;
+	private String id;
 
-	private BigInteger coste;
+	private float coste;
 
 	private int cv2;
 
-	@Column(name="fecha_tarjeta")
 	private String fechaTarjeta;
 
-	@Column(name="num_tarjeta")
-	private BigInteger numTarjeta;
+	private BigInteger tarjeta;
 
 	//bi-directional many-to-one association to Item
 	@ManyToOne
-	@JoinColumn(name="sold_item")
+	@JoinColumn(name="cod_pedido")
 	private Item item;
 
 	public Transaction() {
 	}
 
-	public String getIdtransactions() {
-		return this.idtransactions;
+	public String getId() {
+		return this.id;
 	}
 
-	public void setIdtransactions(String idtransactions) {
-		this.idtransactions = idtransactions;
+	public void setId(String id) {
+		this.id = id;
 	}
 
-	public BigInteger getCoste() {
+	public float getCoste() {
 		return this.coste;
 	}
 
-	public void setCoste(BigInteger coste) {
+	public void setCoste(float coste) {
 		this.coste = coste;
 	}
 
@@ -71,12 +66,12 @@ public class Transaction implements Serializable {
 		this.fechaTarjeta = fechaTarjeta;
 	}
 
-	public BigInteger getNumTarjeta() {
-		return this.numTarjeta;
+	public BigInteger getTarjeta() {
+		return this.tarjeta;
 	}
 
-	public void setNumTarjeta(BigInteger numTarjeta) {
-		this.numTarjeta = numTarjeta;
+	public void setTarjeta(BigInteger tarjeta) {
+		this.tarjeta = tarjeta;
 	}
 
 	public Item getItem() {

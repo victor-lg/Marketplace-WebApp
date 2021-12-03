@@ -1,9 +1,7 @@
-package com.bank.model;
+package com.catalogue.domains;
 
 import java.io.Serializable;
 import javax.persistence.*;
-
-
 import java.util.List;
 
 
@@ -25,8 +23,7 @@ public class Item implements Serializable {
 
 	private String description;
 
-	@Lob
-	private byte[] photo;
+	private Object photo;
 
 	private float price;
 
@@ -70,11 +67,11 @@ public class Item implements Serializable {
 		this.description = description;
 	}
 
-	public byte[] getPhoto() {
+	public Object getPhoto() {
 		return this.photo;
 	}
 
-	public void setPhoto(byte[] photo) {
+	public void setPhoto(Object photo) {
 		this.photo = photo;
 	}
 

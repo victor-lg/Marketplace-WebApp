@@ -1,10 +1,7 @@
-package com.catalogue.model;
+package com.catalogue.domains;
 
 import java.io.Serializable;
 import javax.persistence.*;
-
-import com.catalogue.model.Item;
-
 import java.math.BigInteger;
 import java.util.List;
 

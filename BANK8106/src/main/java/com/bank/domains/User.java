@@ -1,9 +1,7 @@
-package com.bank.model;
+package com.bank.domains;
 
 import java.io.Serializable;
 import javax.persistence.*;
-
-
 import java.math.BigInteger;
 import java.util.List;
 
