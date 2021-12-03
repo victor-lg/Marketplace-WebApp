@@ -8,6 +8,7 @@ public class TransactionFromClient {
 	private String fechaTransaccion;
 	int cv2;
 	Long tarjeta;
+	private String codigoPedido;
 	
 	public String getComprador() {
 		return comprador;
@@ -50,5 +51,11 @@ public class TransactionFromClient {
 	}
 	public void setTarjeta(Long tarjeta) {
 		this.tarjeta = tarjeta;
+	}
+	public String getCodigoPedido() {
+		return codigoPedido;
+	}
+	public void setCodigoPedido(String codigoPedido) {
+		this.codigoPedido = codigoPedido;
 	}
 }

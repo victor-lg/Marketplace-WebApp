@@ -19,6 +19,8 @@ import com.bank.domains.TransactionFromClient;
 import com.bank.repositories.BankToFinanceTransactionRepository;
 import com.bank.repositories.BankTransactionRepository;
 
+import java.math.*;
+
 
 @RestController
 @CrossOrigin
@@ -36,40 +38,53 @@ public class BankController {
 	@PostMapping(value = "/transaccion", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ResponseEntity<?> getAuthorization(@RequestBody TransactionFromClient transactionFromClient) {
+		try {
+			ValidacionTarjeta _validacionTarjeta = new ValidacionTarjeta();
+			
+			System.out.println(_validacionTarjeta.validarTarjeta(transactionFromClient.getFechaTarjeta(), transactionFromClient.getCv2(),
+					transactionFromClient.getTarjeta()));
 
-		ValidacionTarjeta _validacionTarjeta = new ValidacionTarjeta();
-		
-		System.out.println(_validacionTarjeta.validarTarjeta(transactionFromClient.getFechaTarjeta(), transactionFromClient.getCv2(),
-				transactionFromClient.getTarjeta()));
+			if (_validacionTarjeta.validarTarjeta(transactionFromClient.getFechaTarjeta(), transactionFromClient.getCv2(),
+					transactionFromClient.getTarjeta())) {
+				
 
-		if (_validacionTarjeta.validarTarjeta(transactionFromClient.getFechaTarjeta(), transactionFromClient.getCv2(),
-				transactionFromClient.getTarjeta())) {
-			Transaction transaction=new Transaction();
+				CodigoTransaccion _codTransacion = new CodigoTransaccion();
 
-			// La tarjeta es valida. Vamos a guardar el pedido y la transaccion en sus respectivos repositorios
-			transactionRepository.save(transaction);
+				String _codigoGeneradoDeTransaccion = _codTransacion.generacionCodigoTransaccion(transactionFromClient.getFechaTarjeta());
+				
+				Transaction transaction=new Transaction(_codigoGeneradoDeTransaccion, 
+						transactionFromClient.getCodigoPedido(), 
+						transactionFromClient.getCoste(),
+						transactionFromClient.getCv2(),
+						transactionFromClient.getFechaTarjeta(), 
+						BigInteger.valueOf(transactionFromClient.getTarjeta()));
 
-			CodigoTransaccion _codTransacion = new CodigoTransaccion();
+						// La tarjeta es valida. Vamos a guardar el pedido y la transaccion en sus respectivos repositorios
+				transactionRepository.save(transaction);
 
-			String _codigoGeneradoDeTransaccion = _codTransacion.generacionCodigoTransaccion(transaction.getFechaTarjeta());
+				/*AuthorizationTransacionPedido _authorizationTransacionPedido = new AuthorizationTransacionPedido(
+						_codigoGeneradoDeTransaccion, authorization.getCodPedido(), authorization.getCoste(),
+						authorization.getFechaTarjeta(), authorization.getCv2(), authorization.getNumeroTarjeta());
 
-			/*AuthorizationTransacionPedido _authorizationTransacionPedido = new AuthorizationTransacionPedido(
-					_codigoGeneradoDeTransaccion, authorization.getCodPedido(), authorization.getCoste(),
-					authorization.getFechaTarjeta(), authorization.getCv2(), authorization.getNumeroTarjeta());
+				TransaccionConciliacion _transaccionConciliacion = new TransaccionConciliacion(_codigoGeneradoDeTransaccion,
+						String.valueOf(authorization.getCoste()), authorization.getFechaTarjeta());
 
-			TransaccionConciliacion _transaccionConciliacion = new TransaccionConciliacion(_codigoGeneradoDeTransaccion,
-					String.valueOf(authorization.getCoste()), authorization.getFechaTarjeta());
+				transaccionConciliacionRepository.save(_transaccionConciliacion);
 
-			transaccionConciliacionRepository.save(_transaccionConciliacion);
+				// Si quermos guardar _authorizationTransacionPedido en la coleccion de financiera
+				authorizationTransacionPedidoRepository.save(_authorizationTransacionPedido);*/
 
-			// Si quermos guardar _authorizationTransacionPedido en la coleccion de financiera
-			authorizationTransacionPedidoRepository.save(_authorizationTransacionPedido);*/
+				return new ResponseEntity<>(HttpStatus.OK);
 
-			return new ResponseEntity<>(HttpStatus.OK);
-
-		} else {
+			} else {
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
+		} catch (Exception e) {
+			System.out.println(e);
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+
+		
 	}
 	
 
