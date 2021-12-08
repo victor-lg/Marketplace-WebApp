@@ -4,6 +4,5 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.catalogue.domains.Catalogue;
 
-public interface CatalogueRepository extends CrudRepository<Catalogue, String>{
-
+public interface CatalogueRepository extends CrudRepository<Catalogue, String> {
 }

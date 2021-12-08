@@ -2,14 +2,11 @@ package com.catalogue.domains;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.math.BigInteger;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.List;
 
-
-/**
- * The persistent class for the users database table.
- * 
- */
 @Entity
 @Table(name="users")
 @NamedQuery(name="User.findAll", query="SELECT u FROM User u")
@@ -21,9 +18,6 @@ public class User implements Serializable {
 
 	private String city;
 
-	@Column(name="CURRENT_CONNECTIONS")
-	private BigInteger currentConnections;
-
 	private String name;
 
 	private String password;
@@ -32,13 +26,8 @@ public class User implements Serializable {
 
 	private String surname2;
 
-	@Column(name="TOTAL_CONNECTIONS")
-	private BigInteger totalConnections;
-
-	private String user;
-
-	//bi-directional many-to-one association to Item
 	@OneToMany(mappedBy="user")
+	@JsonManagedReference
 	private List<Item> items;
 
 	public User() {
@@ -58,14 +47,6 @@ public class User implements Serializable {
 
 	public void setCity(String city) {
 		this.city = city;
-	}
-
-	public BigInteger getCurrentConnections() {
-		return this.currentConnections;
-	}
-
-	public void setCurrentConnections(BigInteger currentConnections) {
-		this.currentConnections = currentConnections;
 	}
 
 	public String getName() {
@@ -98,22 +79,6 @@ public class User implements Serializable {
 
 	public void setSurname2(String surname2) {
 		this.surname2 = surname2;
-	}
-
-	public BigInteger getTotalConnections() {
-		return this.totalConnections;
-	}
-
-	public void setTotalConnections(BigInteger totalConnections) {
-		this.totalConnections = totalConnections;
-	}
-
-	public String getUser() {
-		return this.user;
-	}
-
-	public void setUser(String user) {
-		this.user = user;
 	}
 
 	public List<Item> getItems() {
