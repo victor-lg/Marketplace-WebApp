@@ -3,7 +3,6 @@ package es.wuolahpop.servlet;
 import java.io.Serializable;
 import javax.persistence.*;
 
-import java.util.List;
 
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;

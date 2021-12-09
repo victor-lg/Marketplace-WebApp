@@ -3,7 +3,7 @@
   <display-name>CLIENT8106</display-name>
   
   <welcome-file-list>
-    <welcome-file>store.jsp</welcome-file>
+    <welcome-file>login.html</welcome-file>
   </welcome-file-list>
   
   <error-page>

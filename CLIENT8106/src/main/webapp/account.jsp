@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@ page import="es.wuolahpop.servlet.User" %>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -38,6 +39,15 @@
 
     </head>
 	<body>
+	
+		<%
+			//allow access only if session exists
+			if(session.getAttribute("user") == null){
+				response.sendRedirect("errLog.html");
+			}
+			
+		%>
+		
 		<!-- HEADER -->
 		<header>
 			<!-- TOP HEADER -->
@@ -47,9 +57,6 @@
 						<li><a href="#"><i class="fa fa-phone"></i> 916886138</a></li>
 						<li><a href="#"><i class="fa fa-envelope-o"></i> info@wuolahpop.com</a></li>
 						<li><a href="#"><i class="fa fa-map-marker"></i> Madrid</a></li>
-					</ul>
-					<ul class="header-links pull-right">
-						<li><a href="#"><i class="fa fa-user-o"></i>Darse de baja</a></li>
 					</ul>
 				</div>
 			</div>
@@ -92,25 +99,41 @@
 							<!-- product -->
 							<div class="col-md-4 col-xs-6">
 								<!-- product -->
-								<div class="product">
-									<div class="product-img">
-										<img src="./img/product01.png" alt="">
-										
-									</div>
-									<div class="product-body">
-										<p class="product-category">Informática y Electrónica</p>
-										<h3 class="product-name"><a href="#">MacBook Pro</a></h3>
-										<h4 class="product-price">960€</h4>
-										<div class="product-rating">
-											<p class="product-category">Borja Rivera González</p>
-										</div>
-									</div>
-									<div class="modify-product">
-										<button onclick="showProductInfo()" class="add-to-cart-btn">Modificar</button><br><br>
-										
-									</div>
-								</div>
-								<!-- /product -->
+									<table class="my-products-table">
+								        <thead>
+								            <tr>
+								                <th>ID</th>
+								                <th>Vendedor</th>
+								                <th>Titulo</th>
+								            	<th>Categoría</th>
+								                <th>Descripción</th>
+								                <th>Precio</th>
+								                <th>Estado</th>
+								                
+								            </tr>
+								        </thead>
+								        <tbody>
+								            <% 
+								            
+								            %>
+								
+								
+								            <tr>
+								                <td><%="1"%></td>
+								                <td><%="antonio@gmail.com"%></td>
+								                <td><%="Mesa"%></td>
+								             	<td><%="Hogar y Jardín"%></td>
+								                <td><%="Mesa Alta"%></td>
+								                <td><%="52"%></td>
+								                <td><%="Disponible"%></td>
+								                <td><button onclick="showProductInfo()" class="add-to-cart-btn">Modificar</button></td>
+								               </tr>
+								            <%
+								        
+								            %>
+								        </tbody>
+						    		</table>
+									<!-- /product -->
 								
 						<div class="row">
 							<div class="product-info" id="product-info" style="display:none">
@@ -159,17 +182,32 @@
 								
 						<div class="row">
 							<div class="user-info">
-								<form>
+								<form action="ControllerServlet" method="post">
 									<h3>Mis datos</h3>
 									
-									Nombre <br><input type="text" name="name" placeholder="Borja" size="50" maxlength="250"><br><br>
-									Primer Apellido<br><input type="text" name="surname1" placeholder="Rivera" size="50" maxlength="250"><br><br>
-									Segundo Apellido<br><input type="text" name="surname2" placeholder="Gonzalez" size="50" maxlength="250" ><br><br>
-									Ciudad<br><input type="text" name="city" placeholder="Madrid" size="50" maxlength="250"><br><br>
-									Email<br><input type="email" name="email" placeholder="borja@gmail.com" size="50" maxlength="250" readonly><br><br>
-									Contraseña<br><input type="password" name="pswd" size="50" maxlength="250"><br><br>
+									Nombre <br><input type="text" value=<%=session.getAttribute("name")%> name="name" placeholder="Borja" size="50" maxlength="250"><br><br>
+									Primer Apellido<br><input type="text" value=<%=session.getAttribute("surname1")%> name="surname1" placeholder="Rivera" size="50" maxlength="250"><br><br>
+									Segundo Apellido<br><input type="text" value=<%=session.getAttribute("surname2")%> name="surname2" placeholder="Gonzalez" size="50" maxlength="250" ><br><br>
+									Ciudad<br><input type="text" value=<%=session.getAttribute("city")%> name="city" placeholder="Madrid" size="50" maxlength="250"><br><br>
+									Email<br><input type="email" value=<%=session.getAttribute("email")%> name="email" placeholder="borja@gmail.com" size="50" maxlength="250" readonly><br><br>
+									Contraseña<br><input type="password" value=<%=session.getAttribute("password")%> name="pswd" size="50" maxlength="250"><br><br>
 			
-									<button>Modificar</button><br><br>
+									<input type="hidden" name="typeOfQuery" value="modifyUser" >
+									
+									<input type="submit" value="Modificar"><br><br>
+								</form>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="user-drop-out">
+								<form action="ControllerServlet" method="post">
+									<h3>Darse de baja</h3>
+									
+									Email<br><input type="email" value=<%=session.getAttribute("email")%> name="email" placeholder="borja@gmail.com" size="50" maxlength="250" readonly><br><br>
+									<input type="hidden" name="typeOfQuery" value="dropOutUser" >
+									
+									<input type="submit" value="Confirmar"><br><br>
 								</form>
 							</div>
 						</div>

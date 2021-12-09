@@ -10,26 +10,29 @@
 			<input type="checkbox" id="chk" aria-hidden="true">
 	
 				<div class="signup">
-					<form>
+					<form action="ControllerServlet" method="post">
 						<label for="chk" aria-hidden="true">Sign up</label>
 						
-						<input type="text" name="name" placeholder="Nombre" required="">
-						<input type="text" name="surname1" placeholder="Primer Apellido" required="">
-						<input type="text" name="surname2" placeholder="Segundo Apellido" required="">
-						<input type="text" name="city" placeholder="Ciudad" required="">
-						<input type="email" name="email" placeholder="Email" required="">
-						<input type="password" name="pswd" placeholder="Password" required="">
-
-						<button>Sign up</button>
+						<input type="text" name="name" placeholder="Nombre" required>
+						<input type="text" name="surname1" placeholder="Primer Apellido" required>
+						<input type="text" name="surname2" placeholder="Segundo Apellido" required>
+						<input type="text" name="city" placeholder="Ciudad" required>
+						<input type="email" name="email" placeholder="Email" required>
+						<input type="password" name="pswd" placeholder="Password" required>
+						
+						<input type="hidden" name="typeOfQuery" value="newUser" >
+						<input type="submit" value="Registrarse">
 					</form>
 				</div>
 	
 				<div class="login">
-					<form>
+					<form action="ControllerServlet" method="post">
 						<label for="chk" aria-hidden="true">Login</label>
-						<input type="email" name="email" placeholder="Email" required="">
-						<input type="password" name="pswd" placeholder="Password" required="">
-						<button>Login</button>
+						<input type="email" name="email" placeholder="Email" required>
+						<input type="password" name="pswd" placeholder="Password" required>
+						
+						<input type="hidden" name="typeOfQuery" value="searchUser" >
+						<input type="submit" value="Entrar">
 					</form>
 				</div>
 		</div>
