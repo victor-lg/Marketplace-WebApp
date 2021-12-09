@@ -3,20 +3,18 @@ package com.catalogue.domains;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
-/**
- * The persistent class for the items database table.
- * 
- */
 @Entity
-@Table(name="items")
-@NamedQuery(name="Item.findAll", query="SELECT i FROM Item i")
+@Table(name = "items")
+@NamedQuery(name = "Item.findAll", query = "SELECT i FROM Item i")
 public class Item implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="item_id")
-	private int itemId;
+	@Column(name = "item_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private String itemId;
 
 	private String category;
 
@@ -30,19 +28,19 @@ public class Item implements Serializable {
 
 	private String title;
 
-	//bi-directional many-to-one association to User
 	@ManyToOne
-	@JoinColumn(name="vendor")
+	@JsonBackReference
+	@JoinColumn(name = "vendor")
 	private User user;
 
 	public Item() {
 	}
 
-	public int getItemId() {
+	public String getItemId() {
 		return this.itemId;
 	}
 
-	public void setItemId(int itemId) {
+	public void setItemId(String itemId) {
 		this.itemId = itemId;
 	}
 

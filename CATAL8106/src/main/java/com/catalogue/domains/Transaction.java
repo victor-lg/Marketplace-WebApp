@@ -4,11 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigInteger;
 
-
-/**
- * The persistent class for the transactions database table.
- * 
- */
 @Entity
 @Table(name="transactions")
 @NamedQuery(name="Transaction.findAll", query="SELECT t FROM Transaction t")
@@ -26,7 +21,6 @@ public class Transaction implements Serializable {
 
 	private BigInteger tarjeta;
 
-	//bi-directional many-to-one association to Item
 	@ManyToOne
 	@JoinColumn(name="cod_pedido")
 	private Item item;
