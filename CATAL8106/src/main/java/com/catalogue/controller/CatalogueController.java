@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -67,6 +69,17 @@ public class CatalogueController {
 		}
 	}
 	
+	@RequestMapping(value = "/requestByCategory", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<?> getItemsByCategory(@RequestParam(value = "category", required = true) String category) {
+		try {
+			return new ResponseEntity<>(daoItem.findByCategory(category), HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	/*
 	@RequestMapping("/requestByCategory")
 	public ResponseEntity<?> getItemsByCategory(@RequestBody Item item) {
 		try {
@@ -76,7 +89,19 @@ public class CatalogueController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
+	*/
 	
+	@RequestMapping(value = "/requestByDescription", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<?> getItemsByDescription(@RequestParam(value = "description", required = true) String description) {
+		try {
+			return new ResponseEntity<>(daoItem.findByDescription(description), HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	/*
 	@RequestMapping("/requestByDescription")
 	public ResponseEntity<?> getItemsByDescription(@RequestBody Item item) {
 		try {
@@ -86,7 +111,19 @@ public class CatalogueController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
+	*/
 	
+	@RequestMapping(value = "/requestByTitle", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<?> getItemsByTitle(@RequestParam(value = "title", required = true) String title) {
+		try {
+			return new ResponseEntity<>(daoItem.findByTitle(title), HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	/*
 	@RequestMapping("/requestByTitle")
 	public ResponseEntity<?> getItemsByTitle(@RequestBody Item item) {
 		try {
@@ -96,28 +133,51 @@ public class CatalogueController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
+	*/
 	
+	@RequestMapping(value = "/requestByCity", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<?> getItemsByCity(@RequestParam(value = "city", required = true) String city) {
+		try {
+			return new ResponseEntity<>(daoItem.findByUserCity(city), HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	/*
 	@RequestMapping("/requestByCity")
 	public ResponseEntity<?> getItemsByCity(@RequestBody Item item) {
 		try {
-			System.out.println(item);
 			return new ResponseEntity<>(daoItem.findByUserCity(item.getUser().getCity()), HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e);
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
+	*/
 	
+	@RequestMapping(value = "/requestByVendor", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<?> getItemsByVendor(@RequestParam(value = "vendor", required = true) String vendor) {
+		try {
+			return new ResponseEntity<>(daoItem.findByUserName(vendor), HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	/*
 	@RequestMapping("/requestByVendor")
 	public ResponseEntity<?> getItemsByVendor(@RequestBody Item item) {
 		try {
-			System.out.println(item);
 			return new ResponseEntity<>(daoItem.findByUserName(item.getUser().getName()), HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e);
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
+	*/
 	
 	@RequestMapping("/requestAll")
 	public ResponseEntity<?> getAllItems() {
