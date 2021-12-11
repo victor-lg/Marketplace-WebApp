@@ -8,6 +8,8 @@ import com.catalogue.domains.Item;
 
 public interface ItemRepository extends CrudRepository<Item, String> {
 	
+	public Item findByItemId(String item_id);
+	
 	public List<Item> findByCategory(String category);
 
 	public List<Item> findByTitle(String title);

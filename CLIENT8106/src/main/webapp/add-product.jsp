@@ -103,7 +103,7 @@
 		</nav>
 		<!-- /NAVIGATION -->
 		
-			<form name="add-product-form" class="add-product-form">
+			<form action="controlador" method="post" name="add-product-form" class="add-product-form" enctype="multipart/form-data">
 
 				  <legend><strong>Añadir Producto</strong></legend>
 				
@@ -113,26 +113,27 @@
 				  <label for="product-category">Categoría</label> 
 				  <select name="product-category-selection">
 					<option value="0">Seleccionar categoría</option>
-					<option value="1">Motor</option>
-					<option value="2">Moda</option>
-					<option value="3">Telefonía</option>
-					<option value="4">Informática y Electrónica</option>
-					<option value="5">Deporte y Ocio</option>
-					<option value="6">Hogar y Jardín</option>
-					<option value="7">Cine, Libros y Música</option>
-					<option value="8">TV, Audio y Foto</option>
+					<option value="Motor">Motor</option>
+					<option value="Moda">Moda</option>
+					<option value="Telefonia">Telefonía</option>
+					<option value="Informatica y Electronica">Informática y Electrónica</option>
+					<option value="Deporte y Ocio">Deporte y Ocio</option>
+					<option value="Hogar y Jardin">Hogar y Jardín</option>
+					<option value="Cine, Libros y Musica">Cine, Libros y Música</option>
+					<option value="TV, Audio y Foto">TV, Audio y Foto</option>
 				  </select><br><br>
 				
 				  <label for="descripcion">Descripción</label> <br>  
 				  <textarea name="product-description" id="description" maxlength="500" cols="40" rows="5"></textarea><br><br>
 				
 				  <label for="image">Foto</label> <br> 
-				  <input name="image" type="file"><br><br>  
+				  <input name="image-file" type="file"><br><br>  
 				  
 				  <label for="precio">Precio</label> 
-				  <input size="5" id="precio" name="precio" type="text"> € <br><br>
+				  <input size="5" id="precio" name="price" type="text"> € <br><br>
 				  
-				  <input type="Submit">Añadir</button>
+				  <input type="hidden" name="typeOfQuery" value="newProduct" >
+				  <input type="submit" value="Añadir">
 				  
 
 				  

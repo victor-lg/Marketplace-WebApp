@@ -43,7 +43,7 @@ public class ClientController {
 
 	}
 	
-	@RequestMapping(value = "/userByMail", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/user", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<?> getClientByName(@RequestParam(value = "mail", required = true) String mail) {
 
 		try {
@@ -62,6 +62,27 @@ public class ClientController {
 		}
 
 	}
+	
+	@RequestMapping(value = "/users", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<?> getAllUsers() {
+
+		try {
+			Iterable<User> found=userRepository.findAll();
+			if(found != null) {
+				return new ResponseEntity<>(found, HttpStatus.OK);
+			}
+			else {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+
+
+		} catch (Exception ex) {
+
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+	}
+	
 	
 	
 	@RequestMapping(value = "/usersByName",method = RequestMethod.GET, produces = "application/json")

@@ -2,6 +2,7 @@ package com.bank.domains;
 
 public class TransactionFromClient {
 	private String comprador;
+	
 	private String vendedor;
 	private Long coste;
 	private String fechaTarjeta;
@@ -9,6 +10,19 @@ public class TransactionFromClient {
 	int cv2;
 	Long tarjeta;
 	private String codigoPedido;
+	
+	public TransactionFromClient(String comprador, String vendedor, Long coste, String fechaTarjeta,
+			String fechaTransaccion, int cv2, Long tarjeta, String codigoPedido) {
+		super();
+		this.comprador = comprador;
+		this.vendedor = vendedor;
+		this.coste = coste;
+		this.fechaTarjeta = fechaTarjeta;
+		this.fechaTransaccion = fechaTransaccion;
+		this.cv2 = cv2;
+		this.tarjeta = tarjeta;
+		this.codigoPedido = codigoPedido;
+	}
 	
 	public String getComprador() {
 		return comprador;

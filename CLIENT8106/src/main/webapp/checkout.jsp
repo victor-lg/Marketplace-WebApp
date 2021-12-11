@@ -127,6 +127,7 @@
 								<input class="input" type="number" name="cv2" placeholder="CV2">
 							</div>
 						</div>
+							<input type="hidden" name="typeOfQuery" value="newBankTransaction" >
 							<input class="primary-btn order-submit" type="submit" name="test" value="Comprar">
 						</form>
 						

@@ -7,12 +7,12 @@ public class ValidacionCategoria {
 		switch (categoria) {
 		case "Motor":
 		case "Moda":
-		case "Telefonía":
-		case "Informática y Electrónica":
-		case "Electrodomésticos":
+		case "Telefonia":
+		case "Informatica y Electronica":
+		case "Electrodomesticos":
 		case "Deporte y Ocio":
-		case "Hogar y Jardín":
-		case "Cine, Libros y Música":
+		case "Hogar y Jardin":
+		case "Cine, Libros y Musica":
 		case "TV, Audio y Foto":
 			return true;
 		default:

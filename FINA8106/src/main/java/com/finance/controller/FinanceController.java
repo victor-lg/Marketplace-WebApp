@@ -31,7 +31,7 @@ public class FinanceController {
 	@Autowired
 	TransactionDAO transactionRepository;
 	
-	@PostMapping(value="/newTransaction", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value="/transactions", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ResponseEntity<?> createTransaction(@RequestBody Transaction transaction){
 		try {

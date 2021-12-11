@@ -43,11 +43,11 @@ public class BankController {
 	RestTemplate restTemplate;
 	
 	public void sendToFinance(BankTransaction transactionForFinance) {
-		restTemplate.postForObject("http://localhost:10604/finance/newTransaction", transactionForFinance, BankTransaction.class);
+		restTemplate.postForObject("http://localhost:10604/finance/transactions", transactionForFinance, BankTransaction.class);
 		
 	}
 	
-	@PostMapping(value = "/transaccion", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/transactions", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ResponseEntity<?> getAuthorization(@RequestBody TransactionFromClient transactionFromClient) {
 		try {

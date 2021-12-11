@@ -1,28 +1,17 @@
-package com.catalogue.domains;
+package es.wuolahpop.data;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
-@Entity
-@Table(name = "items")
-@NamedQuery(name = "Item.findAll", query = "SELECT i FROM Item i")
-@JsonPropertyOrder({"itemId", "category","description","photo","price","state","title","user"})
-public class Item implements Serializable {
+public class ItemFromCatalogue implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name = "item_id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+
 	private String itemId;
 
 	private String category;
 
 	private String description;
 
-	@Lob
 	private byte[] photo;
 
 	private float price;
@@ -31,12 +20,9 @@ public class Item implements Serializable {
 
 	private String title;
 
-	@ManyToOne
-	@JsonBackReference
-	@JoinColumn(name = "vendor")
 	private User user;
 
-	public Item() {
+	public ItemFromCatalogue() {
 	}
 
 	public String getItemId() {

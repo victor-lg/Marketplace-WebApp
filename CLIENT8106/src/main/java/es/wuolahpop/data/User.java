@@ -1,4 +1,4 @@
-package es.wuolahpop.servlet;
+package es.wuolahpop.data;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -29,9 +29,9 @@ public class User implements Serializable {
 		this.surname1 = surname1;
 		this.surname2 = surname2;
 	}
-
-
+	
 	public User() {
+		
 	}
 
 	public String getMail() {

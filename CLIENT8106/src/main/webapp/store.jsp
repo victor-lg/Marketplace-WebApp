@@ -329,6 +329,12 @@
 						<!-- /store top filter -->
 
 						<!-- store products -->
+						
+						<form action="controlador" method="post">				  
+						  <input type="hidden" name="typeOfQuery" value="getAllProducts" >
+						  <input type="submit" value="Ver Todos Los Prodcutos">
+						</form>
+						
 						<div class="row">
 							<!-- product -->
 							<div class="col-md-4 col-xs-6">

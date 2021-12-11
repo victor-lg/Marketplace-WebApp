@@ -1,4 +1,9 @@
+
+   
 package com.catalogue.controller;
+
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -42,6 +47,7 @@ public class CatalogueController {
 
 				if (item.getDescription().length() <= 500) {
 					daoItem.save(item);
+					System.out.println(item);
 					return new ResponseEntity<>(item, HttpStatus.OK);
 				} else {
 					return new ResponseEntity<>(
@@ -59,10 +65,11 @@ public class CatalogueController {
 		}
 	}
 
-	@RequestMapping("/requestById")
-	public ResponseEntity<?> getItemById(@RequestBody Item item) {
+	@RequestMapping(value = "/requestById" , method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<?> getItemById(@RequestParam(value = "itemId", required = true) String item_id) {
 		try {
-			return new ResponseEntity<>(daoItem.findById(item.getItemId()), HttpStatus.OK);
+			Item it = daoItem.findById(item_id);
+			return new ResponseEntity<>(daoItem.findById(item_id), HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e);
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -72,6 +79,7 @@ public class CatalogueController {
 	@RequestMapping(value = "/requestByCategory", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<?> getItemsByCategory(@RequestParam(value = "category", required = true) String category) {
 		try {
+			List<Item> itemsList = daoItem.findByCategory(category);
 			return new ResponseEntity<>(daoItem.findByCategory(category), HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e);
@@ -182,6 +190,7 @@ public class CatalogueController {
 	@RequestMapping("/requestAll")
 	public ResponseEntity<?> getAllItems() {
 		try {
+			Iterable<Item> listItems = daoItem.findAll();
 			return new ResponseEntity<>(daoItem.findAll(), HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e);

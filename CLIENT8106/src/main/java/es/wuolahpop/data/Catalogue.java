@@ -1,4 +1,4 @@
-package es.wuolahpop.servlet;
+package es.wuolahpop.data;
 
 
 public class Catalogue {

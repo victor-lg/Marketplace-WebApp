@@ -5,7 +5,6 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import java.util.List;
 
 @Entity
 @Table(name="users")
@@ -26,9 +25,6 @@ public class User implements Serializable {
 
 	private String surname2;
 
-	@OneToMany(mappedBy="user")
-	@JsonManagedReference
-	private List<Item> items;
 
 	public User() {
 	}
@@ -81,26 +77,5 @@ public class User implements Serializable {
 		this.surname2 = surname2;
 	}
 
-	public List<Item> getItems() {
-		return this.items;
-	}
-
-	public void setItems(List<Item> items) {
-		this.items = items;
-	}
-
-	public Item addItem(Item item) {
-		getItems().add(item);
-		item.setUser(this);
-
-		return item;
-	}
-
-	public Item removeItem(Item item) {
-		getItems().remove(item);
-		item.setUser(null);
-
-		return item;
-	}
 
 }

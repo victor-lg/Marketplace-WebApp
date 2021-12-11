@@ -2,6 +2,9 @@ package es.wuolahpop.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -19,6 +23,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.client.ClientConfig;
+
+import es.wuolahpop.data.*;
+import es.wuolahpop.images.manager.ImagenenbbddManager;
 
 
 /**
@@ -58,13 +65,16 @@ public class ControllerServlet extends HttpServlet {
 			ClientConfig config = new ClientConfig();
             Client client = ClientBuilder.newClient(config);
 
-            WebTarget webtarget = client.target("http://localhost:10602");
+            WebTarget webtarget;
             WebTarget webtargetPath;
             Invocation.Builder invocationBuilder;
             Response responsews;
             User userResponse;
             
             RequestDispatcher reqDis;
+            
+            String category=request.getParameter("product-category-selection");
+            
             
 			String typeOfOperation=request.getParameter("typeOfQuery");
 			
@@ -73,11 +83,12 @@ public class ControllerServlet extends HttpServlet {
 			  switch(typeOfOperation){
 			  
 			  case "searchUser":
+				  	webtarget = client.target("http://localhost:10602");
 				  	String email=request.getParameter("email");
 				  	String password=request.getParameter("pswd");
 				  
 		            // Path adicionales o parámetros
-				  	webtargetPath = webtarget.path("client").path("userByMail").queryParam("mail", email);
+				  	webtargetPath = webtarget.path("client").path("user").queryParam("mail", email);
 		            invocationBuilder = webtargetPath.request(MediaType.APPLICATION_JSON);
 		            
 		            
@@ -112,6 +123,7 @@ public class ControllerServlet extends HttpServlet {
 			  		
 			  	case "newUser":
 			  		
+			  		webtarget = client.target("http://localhost:10602");
 		            // Path adicionales o parámetros
 			  		webtargetPath = webtarget.path("client").path("newUser");
 		            invocationBuilder = webtargetPath.request(MediaType.APPLICATION_JSON);
@@ -136,6 +148,7 @@ public class ControllerServlet extends HttpServlet {
 			  		break;
 			  		
 			  	case "modifyUser":
+			  			webtarget = client.target("http://localhost:10602");
 			  			webtargetPath = webtarget.path("client").path("modifyUser");
 			            invocationBuilder = webtargetPath.request(MediaType.APPLICATION_JSON);
 			            User modified_user = new User(request.getParameter("email"), 
@@ -167,7 +180,8 @@ public class ControllerServlet extends HttpServlet {
 			  		break;
 			  		
 			  	case "dropOutUser":
-		  			webtargetPath = webtarget.path("client").path("deleteUser").queryParam("mail", request.getParameter("email"));
+			  		webtarget = client.target("http://localhost:10602");
+		  			webtargetPath = webtarget.path("client").path("users").queryParam("mail", request.getParameter("email"));
 		            invocationBuilder = webtargetPath.request(MediaType.APPLICATION_JSON);
 		            
 		            responsews = invocationBuilder.delete();
@@ -180,7 +194,38 @@ public class ControllerServlet extends HttpServlet {
 		  		
 		  		break;
 			  		
-			  		
+			  	case "newBankTransaction":
+			  		webtarget = client.target("http://localhost:10601");
+		  			webtargetPath = webtarget.path("bank").path("transactions");
+		            invocationBuilder = webtargetPath.request(MediaType.APPLICATION_JSON);
+		            DateFormat objSDF = new SimpleDateFormat("yyyyMMdd");
+					Date _fechaActual = new Date();
+					
+					String fecha_caducidad = request.getParameter("caducity");
+					String fecha_final = fecha_caducidad.replace("-", "");
+					
+		            TransactionFromClient transaction = new TransactionFromClient(
+		            		request.getParameter("buyer"), 
+		            		request.getParameter("seller"), 
+		            		Long.valueOf(34), 
+		            		fecha_final,
+		            		objSDF.format(_fechaActual).toString(), 
+		        			Integer.parseInt(request.getParameter("cv2")), 
+		        			Long.parseLong(request.getParameter("card")), 
+		        			"1");
+		            
+		            // Llamada por post
+		            responsews = invocationBuilder.post(Entity.entity(transaction,MediaType.APPLICATION_JSON));
+		            
+		            // Obtención del cuerpo de la respuesta
+		            Transaction transactionResponse  = responsews.readEntity(Transaction.class);
+		            
+		           
+					reqDis = request.getRequestDispatcher("/store.jsp");
+					reqDis.forward(request, response);
+		  		
+		  		break;
+		  		
 			  		
 			  }			 
 			 

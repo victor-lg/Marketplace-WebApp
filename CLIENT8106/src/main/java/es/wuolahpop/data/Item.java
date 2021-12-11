@@ -1,12 +1,10 @@
-package es.wuolahpop.servlet;
+package es.wuolahpop.data;
 
 import java.io.Serializable;
 import javax.persistence.*;
 
 public class Item implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	private String itemId;
 
 	private String category;
 
@@ -16,8 +14,6 @@ public class Item implements Serializable {
 
 	private float price;
 
-	private String state;
-
 	private String title;
 
 	private User user;
@@ -25,13 +21,17 @@ public class Item implements Serializable {
 	public Item() {
 	}
 
-	public String getItemId() {
-		return this.itemId;
+	public Item(String category, String description, byte[] photo, float price,
+			String title, User user) {
+		super();
+		this.category = category;
+		this.description = description;
+		this.photo = photo.clone();
+		this.price = price;
+		this.title = title;
+		this.user = user;
 	}
 
-	public void setItemId(String itemId) {
-		this.itemId = itemId;
-	}
 
 	public String getCategory() {
 		return this.category;
@@ -65,13 +65,6 @@ public class Item implements Serializable {
 		this.price = price;
 	}
 
-	public String getState() {
-		return this.state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
-	}
 
 	public String getTitle() {
 		return this.title;
