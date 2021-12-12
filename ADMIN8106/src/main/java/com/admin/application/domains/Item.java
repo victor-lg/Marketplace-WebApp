@@ -1,21 +1,10 @@
-package com.admin.domains;
+package com.admin.application.domains;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
-
-/**
- * The persistent class for the items database table.
- * 
- */
-@Entity
-@Table(name="items")
-@NamedQuery(name="Item.findAll", query="SELECT i FROM Item i")
 public class Item implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name="item_id")
 	private int itemId;
 
 	private String category;
@@ -29,10 +18,7 @@ public class Item implements Serializable {
 	private String state;
 
 	private String title;
-
-	//bi-directional many-to-one association to User
-	@ManyToOne
-	@JoinColumn(name="vendor")
+	
 	private User user;
 
 	public Item() {

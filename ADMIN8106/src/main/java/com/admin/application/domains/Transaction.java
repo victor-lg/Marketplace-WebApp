@@ -1,13 +1,6 @@
-package com.admin.domains;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.PersistenceConstructor;
-import org.springframework.data.mongodb.core.mapping.Document;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+package com.admin.application.domains;
 
-@Document(collection = "transactions")
-@JsonPropertyOrder({ "id", "codPedido", "comprador", "vendedor", "coste", "fechaTransaccion","fechaTarjeta" ,"cv2","tarjeta"})
 public class Transaction {
-	@Id
 	private String id;
 	private String codPedido;
 	private String comprador;
@@ -18,7 +11,6 @@ public class Transaction {
 	int cv2;
 	Long tarjeta;
 	
-	@PersistenceConstructor
 	public Transaction(String id, String codPedido, String comprador, String vendedor, Float coste,
 			String fechaTarjeta, String fechaTransaccion, int cv2, Long tarjeta) {
 		

@@ -1,0 +1,21 @@
+.container{
+	display:flex;
+	justify-content: space-between;
+}
+
+.subContainer{
+	padding: 5%;
+}
+
+.enlace{
+	text-decoration: none;
+	color: blue;
+}
+
+enlace:hover{
+	text-decoration: underline;
+}
+
+enlace:visited {
+  color: blue;
+}

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Wuolahpop - Borrar usuario</title>
+</head>
+<body>
+<form th:action="@{/pagina-delete-usuario}" method="post">
+	<label>Introduce el email del usuario a borrar: </label>
+	<input type="text" th:value="${userMail}" name="userMail">
+	<input type="submit" value="Submit">
+</form>
+</body>
+</html>

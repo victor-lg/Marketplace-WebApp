@@ -1,0 +1,28 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Wuolahpop - Usuarios</title>
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+</head>
+<body>
+
+	<h1>LISTA DE USUARIOS</h1>
+	
+	<table>
+		<tr>
+		    <th>Nombre</th>
+		    <th>Primer apellido</th>
+		    <th>Segundo apellido</th>
+		    <th>Email</th>
+		    <th>Ciudad</th>
+	  	</tr>
+		<tr th:each="usuario: ${usuarios}">
+		    <td th:text="${usuario.name}" />
+		    <td th:text="${usuario.surname1}" />
+		    <td th:text="${usuario.surname2}" />
+		    <td th:text="${usuario.mail}" />
+		    <td th:text="${usuario.city}" />
+		</tr>
+	</table>
+
+</body>
+</html>

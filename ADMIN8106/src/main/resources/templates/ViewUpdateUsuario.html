@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Página para modificar un usuario</title>
+</head>
+<body>
+<form th:action="@{/pagina-search-usuario}" method="post">
+	<label>Buscar email:</label>
+	<input type="text" th:value="${mail}" name="mail">
+	<input type="submit" value="Search" />
+</form>
+
+<!-- Completar -->
+<form th:action="@{/pagina-update-usuario}" th:object="${usuario}" method="post">
+<label >Email:</label>
+<input type="text" th:field="*{mail}" >
+<label >Contraseña:</label>
+<input type="text" th:field="*{password}" >
+<label >Nombre:</label>
+<input type="text" th:field="*{name}" >
+<label >Primer apellido:</label>
+<input type="text" th:field="*{surname1}" >
+<label >Segundo apellido:</label>
+<input type="text" th:field="*{surname2}" >
+<label >Ciudad:</label>
+<input type="text" th:field="*{city}" >
+
+<input type="submit" value="Update" />
+</form>
+
+</body>
+</html>

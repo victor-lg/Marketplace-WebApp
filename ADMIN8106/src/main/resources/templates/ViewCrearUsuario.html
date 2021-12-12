@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Wuolahpop - Crear Usuario</title>
+</head>
+<body>
+<form th:action="@{/pagina-post-usuario}" th:object="${usuario}" method="post">
+	<label >Email:</label>
+	<input type="text" th:field="*{mail}">
+	<label >Ciudad:</label>
+	<input type="text" th:field="*{city}">
+	<label >Nombre:</label>
+	<input type="text" th:field="*{name}">
+	<label >Contraseña:</label>
+	<input type="text" th:field="*{password}">
+	<label >Primer apellido:</label>
+	<input type="text" th:field="*{surname1}">
+	<label >Segundo apellido:</label>
+	<input type="text" th:field="*{surname2}">
+	<input type="submit" value="Submit" />
+</form>
+
+</body>
+</html>

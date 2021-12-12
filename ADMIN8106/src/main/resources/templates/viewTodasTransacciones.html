@@ -1,0 +1,30 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Wuolahpop - Transacciones</title>
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+</head>
+<body>
+
+	<h1>LISTA DE TRANSACCIONES</h1>
+	
+	<table>
+		<tr>
+		    <th>Id</th>
+		    <th>Código de pedido</th>
+		    <th>Comprador</th>
+		    <th>Vendedor</th>
+		    <th>Coste</th>
+		    <th>Fecha</th>
+	  	</tr>
+		<tr th:each="transaccion: ${transacciones}">
+		    <td th:text="${transaccion.id}" />
+		    <td th:text="${transaccion.codPedido}" />
+		    <td th:text="${transaccion.comprador}" />
+		    <td th:text="${transaccion.vendedor}" />
+		    <td th:text="${transaccion.coste}" />
+		    <td th:text="${transaccion.fechaTransaccion}" />
+		</tr>
+	</table>
+
+</body>
+</html>
