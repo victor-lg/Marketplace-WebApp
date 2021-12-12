@@ -132,6 +132,9 @@
 				  <label for="precio">Precio</label> 
 				  <input size="5" id="precio" name="price" type="text"> € <br><br>
 				  
+				  <label for="email">Confirmar email</label> 
+				  <input size="50" id="email" name="email" value=<%=session.getAttribute("email")%> type="text" readonly><br><br>
+				  
 				  <input type="hidden" name="typeOfQuery" value="newProduct" >
 				  <input type="submit" value="Añadir">
 				  

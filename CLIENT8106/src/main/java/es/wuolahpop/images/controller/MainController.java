@@ -5,8 +5,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -68,7 +70,7 @@ public class MainController extends HttpServlet {
         WebTarget webtargetPath;
         Invocation.Builder invocationBuilder;
         Response responsews;
-        ItemFromCatalogue itemResponse;
+        Item itemResponse;
         
         RequestDispatcher reqDis;
         session = null;
@@ -84,12 +86,12 @@ public class MainController extends HttpServlet {
 			case "getAllProducts":
 				try {
 					webtarget = client.target("http://localhost:10603");
-		  			webtargetPath = webtarget.path("catalogue").path("requestById").queryParam("itemId", 4);
+		  			webtargetPath = webtarget.path("catalogue").path("requestAll");
 		            invocationBuilder = webtargetPath.request(MediaType.APPLICATION_JSON);
 		            
 		            responsews = invocationBuilder.get();
 		            
-		            ItemFromCatalogue itemsList = responsews.readEntity(ItemFromCatalogue.class);
+		            Item [] itemsList = responsews.readEntity(Item[].class);
 		            session.setAttribute("itemsList", itemsList);
 
 		            RequestDispatcher r1 = request.getRequestDispatcher("/store.jsp");
@@ -107,16 +109,19 @@ public class MainController extends HttpServlet {
 
 				Part filePart = request.getPart("image-file");
 				
-			    byte[] data = new byte[(int) filePart.getSize()];
-			    filePart.getInputStream().read(data, 0, data.length);
+				InputStream fileContent = filePart.getInputStream();
+			    byte[] imageBytes = new byte[(int) filePart.getSize()];
+			    fileContent.read(imageBytes, 0, imageBytes.length);
+			    fileContent.close();
+			    String image = Base64.getEncoder().encodeToString(imageBytes);
 			    
 			    Item new_item = new  Item(
 						request.getParameter("product-category-selection"),
 						request.getParameter("product-description"),
-						data, 
+						image, 
 						Float.parseFloat(request.getParameter("price")), 
 						request.getParameter("product-name"),  
-						new User ("antonio@gmail.com", "Madrid", "Antonio", "1234", "De la Cruz", "Vera"));
+						request.getParameter("email"));
 			    
 			    System.out.println(new_item);
 			    
@@ -124,7 +129,7 @@ public class MainController extends HttpServlet {
 	            responsews = invocationBuilder.post(Entity.entity(new_item,MediaType.APPLICATION_JSON));
 	            
 	            // Obtención del cuerpo de la respuesta
-	            itemResponse  = responsews.readEntity(ItemFromCatalogue.class);
+	            itemResponse  = responsews.readEntity(Item.class);
 	            
 	            System.out.println(itemResponse);
 			    

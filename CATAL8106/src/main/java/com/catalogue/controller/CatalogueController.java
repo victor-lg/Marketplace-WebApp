@@ -65,18 +65,21 @@ public class CatalogueController {
 		}
 	}
 
-	@RequestMapping(value = "/requestById" , method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/requestById" , method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
 	public ResponseEntity<?> getItemById(@RequestParam(value = "itemId", required = true) String item_id) {
 		try {
-			Item it = daoItem.findById(item_id);
-			return new ResponseEntity<>(daoItem.findById(item_id), HttpStatus.OK);
+			int itemId=Integer.parseInt(item_id);
+			Item it = daoItem.findByItemId(itemId);
+			return new ResponseEntity<>(it, HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e);
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	
-	@RequestMapping(value = "/requestByCategory", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/requestByCategory", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
     public ResponseEntity<?> getItemsByCategory(@RequestParam(value = "category", required = true) String category) {
 		try {
 			List<Item> itemsList = daoItem.findByCategory(category);
@@ -142,7 +145,7 @@ public class CatalogueController {
 		}
 	}
 	*/
-	
+	/*
 	@RequestMapping(value = "/requestByCity", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<?> getItemsByCity(@RequestParam(value = "city", required = true) String city) {
 		try {
@@ -152,7 +155,7 @@ public class CatalogueController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+	*/
 	/*
 	@RequestMapping("/requestByCity")
 	public ResponseEntity<?> getItemsByCity(@RequestBody Item item) {
@@ -164,7 +167,7 @@ public class CatalogueController {
 		}
 	}
 	*/
-	
+	/*
 	@RequestMapping(value = "/requestByVendor", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<?> getItemsByVendor(@RequestParam(value = "vendor", required = true) String vendor) {
 		try {
@@ -174,7 +177,7 @@ public class CatalogueController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+	*/
 	/*
 	@RequestMapping("/requestByVendor")
 	public ResponseEntity<?> getItemsByVendor(@RequestBody Item item) {
@@ -187,7 +190,8 @@ public class CatalogueController {
 	}
 	*/
 	
-	@RequestMapping("/requestAll")
+	@RequestMapping(value = "/requestAll", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
 	public ResponseEntity<?> getAllItems() {
 		try {
 			Iterable<Item> listItems = daoItem.findAll();

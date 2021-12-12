@@ -3,27 +3,26 @@ package com.catalogue.domains;
 import java.io.Serializable;
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+/**
+ * The persistent class for the items database table.
+ * 
+ */
 @Entity
-@Table(name = "items")
-@NamedQuery(name = "Item.findAll", query = "SELECT i FROM Item i")
-@JsonPropertyOrder({"itemId", "category","description","photo","price","state","title","user"})
+@Table(name="items")
+@NamedQuery(name="Item.findAll", query="SELECT i FROM Item i")
 public class Item implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "item_id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private String itemId;
+	@Column(name="item_id")
+	private int itemId;
 
 	private String category;
 
 	private String description;
 
-	@Lob
-	private byte[] photo;
+	private String photo;
 
 	private float price;
 
@@ -31,19 +30,16 @@ public class Item implements Serializable {
 
 	private String title;
 
-	@ManyToOne
-	@JsonBackReference
-	@JoinColumn(name = "vendor")
-	private User user;
+	private String vendor;
 
 	public Item() {
 	}
 
-	public String getItemId() {
+	public int getItemId() {
 		return this.itemId;
 	}
 
-	public void setItemId(String itemId) {
+	public void setItemId(int itemId) {
 		this.itemId = itemId;
 	}
 
@@ -63,11 +59,11 @@ public class Item implements Serializable {
 		this.description = description;
 	}
 
-	public byte[] getPhoto() {
+	public String getPhoto() {
 		return this.photo;
 	}
 
-	public void setPhoto(byte[] photo) {
+	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
 
@@ -95,12 +91,12 @@ public class Item implements Serializable {
 		this.title = title;
 	}
 
-	public User getUser() {
-		return this.user;
+	public String getVendor() {
+		return this.vendor;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setVendor(String vendor) {
+		this.vendor = vendor;
 	}
 
 }

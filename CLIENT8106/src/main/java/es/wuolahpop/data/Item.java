@@ -1,37 +1,60 @@
 package es.wuolahpop.data;
 
 import java.io.Serializable;
+
+import javax.json.bind.annotation.JsonbTypeDeserializer;
 import javax.persistence.*;
 
+
+/**
+ * The persistent class for the items database table.
+ * 
+ */
+@Entity
+@Table(name="items")
+@NamedQuery(name="Item.findAll", query="SELECT i FROM Item i")
 public class Item implements Serializable {
 	private static final long serialVersionUID = 1L;
+
+	@Id
+	@Column(name="item_id")
+	private int itemId;
 
 	private String category;
 
 	private String description;
-
-	private byte[] photo;
+	
+	private String photo;
 
 	private float price;
 
+	private String state;
+
 	private String title;
 
-	private User user;
+	private String vendor;
+
+	public Item(String category, String description, String photo, float price, String title,
+			String vendor) {
+		super();
+		this.category = category;
+		this.description = description;
+		this.photo = photo;
+		this.price = price;
+		this.title = title;
+		this.vendor = vendor;
+	}
 
 	public Item() {
 	}
 
-	public Item(String category, String description, byte[] photo, float price,
-			String title, User user) {
-		super();
-		this.category = category;
-		this.description = description;
-		this.photo = photo.clone();
-		this.price = price;
-		this.title = title;
-		this.user = user;
+	public int getItemId() {
+		return this.itemId;
 	}
 
+	public void setItemId(int itemId) {
+		this.itemId = itemId;
+	}
 
 	public String getCategory() {
 		return this.category;
@@ -49,11 +72,11 @@ public class Item implements Serializable {
 		this.description = description;
 	}
 
-	public byte[] getPhoto() {
+	public String getPhoto() {
 		return this.photo;
 	}
 
-	public void setPhoto(byte[] photo) {
+	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
 
@@ -65,6 +88,13 @@ public class Item implements Serializable {
 		this.price = price;
 	}
 
+	public String getState() {
+		return this.state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
 
 	public String getTitle() {
 		return this.title;
@@ -74,12 +104,12 @@ public class Item implements Serializable {
 		this.title = title;
 	}
 
-	public User getUser() {
-		return this.user;
+	public String getVendor() {
+		return this.vendor;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setVendor(String vendor) {
+		this.vendor = vendor;
 	}
 
 }
