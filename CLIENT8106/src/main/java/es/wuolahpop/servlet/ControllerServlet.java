@@ -34,6 +34,7 @@ import es.wuolahpop.images.manager.ImagenenbbddManager;
 @WebServlet("/ControllerServlet")
 public class ControllerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private HttpSession session;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -73,7 +74,19 @@ public class ControllerServlet extends HttpServlet {
             
             RequestDispatcher reqDis;
             
-            String category=request.getParameter("product-category-selection");
+            webtarget = client.target("http://localhost:10603");
+    		webtargetPath = webtarget.path("catalogue").path("requestAll");
+            invocationBuilder = webtargetPath.request(MediaType.APPLICATION_JSON);
+            
+            responsews = invocationBuilder.get();
+            
+            Item [] itemsList = responsews.readEntity(Item[].class);
+            session = request.getSession(true);
+
+            session.setAttribute("itemsList", itemsList);
+
+            RequestDispatcher r1 = request.getRequestDispatcher("/store.jsp");
+    		r1.forward(request,response);
             
             
 			String typeOfOperation=request.getParameter("typeOfQuery");
@@ -141,6 +154,9 @@ public class ControllerServlet extends HttpServlet {
 		            userResponse  = responsews.readEntity(User.class);
 
 		            System.out.println(userResponse);
+		            
+		            session = request.getSession(true);
+					session.setAttribute("user", userResponse);
 		            
 					reqDis = request.getRequestDispatcher("/store.jsp");
 					reqDis.forward(request, response);

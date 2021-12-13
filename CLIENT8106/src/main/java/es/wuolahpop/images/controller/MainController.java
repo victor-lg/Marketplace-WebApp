@@ -71,8 +71,7 @@ public class MainController extends HttpServlet {
         Invocation.Builder invocationBuilder;
         Response responsews;
         Item itemResponse;
-        
-        RequestDispatcher reqDis;
+
         session = null;
 		
 		String accion = request.getParameter("typeOfQuery");
@@ -81,9 +80,11 @@ public class MainController extends HttpServlet {
 			accion = "getAllProducts";
 		}
 		
+		
+		
 		switch(accion)
 		{
-			case "getAllProducts":
+			/*case "getAllProducts":
 				try {
 					webtarget = client.target("http://localhost:10603");
 		  			webtargetPath = webtarget.path("catalogue").path("requestAll");
@@ -92,6 +93,8 @@ public class MainController extends HttpServlet {
 		            responsews = invocationBuilder.get();
 		            
 		            Item [] itemsList = responsews.readEntity(Item[].class);
+		            session = request.getSession(true);
+
 		            session.setAttribute("itemsList", itemsList);
 
 		            RequestDispatcher r1 = request.getRequestDispatcher("/store.jsp");
@@ -99,7 +102,7 @@ public class MainController extends HttpServlet {
 				} catch (Exception e) {
 					System.out.println(e);
 				}
-				
+				*/
 				
 			
 			case "newProduct":

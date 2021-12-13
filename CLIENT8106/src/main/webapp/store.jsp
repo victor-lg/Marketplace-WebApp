@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="es.wuolahpop.data.*"%>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -38,7 +40,9 @@
 
     </head>
 	<body>
-				<!-- HEADER -->
+	
+
+		<!-- HEADER -->
 		<header>
 			<!-- TOP HEADER -->
 			<div id="top-header">
@@ -330,45 +334,46 @@
 
 						<!-- store products -->
 						
-						<form action="controlador" method="post">				  
-						  <input type="hidden" name="typeOfQuery" value="getAllProducts" >
-						  <input type="submit" value="Ver Todos Los Prodcutos">
-						</form>
 						
-						<div class="row">
-							<!-- product -->
+						<%
+							Item [] itemsList = (Item[]) session.getAttribute("itemsList");
+							for (Item myItem : itemsList) {
+						%>
 							<div class="col-md-4 col-xs-6">
-								<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="./img/product01.png" alt="">
-												
-											</div>
-											<div class="product-body">
-												<p class="product-category">Informática y Electrónica</p>
-												<h3 class="product-name"><a href="#">MacBook Pro</a></h3>
-												<h4 class="product-price">960€</h4>
-												<div class="product-rating">
-													<p class="product-category">Borja Rivera González</p>
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<a href="checkout.jsp"><button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Comprar</button></a>
-												
-											</div>
-										</div>
-										<!-- /product -->
+								<div class="product">
+									<div class="product-img">
+										<img src="data:image/*;base64,<%=myItem.getPhoto() %>" />
+										
+									</div>
 
-						</div>
-						<!-- /store products -->
-					</div>
+									<div class="product-body">
+										<p class="product-category"><%= myItem.getCategory() %></p>
+										<h3 class="product-name"><a href="#"> <%= myItem.getTitle() %> </a></h3>
+										<h4 class="product-price"><%= myItem.getPrice() %>€</h4>
+										<div class="product-rating">
+											<p class="product-category"><%= myItem.getVendor() %></p>
+										</div>
+										<div class="product-btns">
+											<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+											<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+											<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+										</div>
+									</div>
+									<div class="add-to-cart">
+										<a href="checkout.jsp"><button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Comprar</button></a>
+										
+									</div>
+								<!-- /product -->
+								</div>
+							</div>
+						<% 	}	%>
+						
+						
 					<!-- /STORE -->
+
+						
 				</div>
+
 				<!-- /row -->
 			</div>
 			<!-- /container -->
@@ -469,6 +474,9 @@
 			</div>
 			<!-- /bottom footer -->
 		</footer>
+		
+					</div>
+
 		<!-- /FOOTER -->
 
 		<!-- jQuery Plugins -->
