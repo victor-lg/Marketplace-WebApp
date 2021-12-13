@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Página para modificar un usuario</title>
+</head>
+<body>
+<form th:action="@{/pagina-search-item}" method="post">
+	<label>Buscar id:</label>
+	<input type="text" th:value="${itemId}" name="itemId">
+	<input type="submit" value="Search" />
+</form>
+
+
+<form th:action="@{/pagina-update-item}" th:object="${item}" method="post" enctype="multipart/form-data">
+	<label >Titulo:</label>
+	<input type="text" th:field="*{title}">
+	<input type="hidden" th:field="*{itemId}">
+	<input type="hidden" th:field="*{vendor}">
+	<label >Categoría:</label>
+	<input type="text" th:field="*{category}">
+	<label >Descripción:</label>
+	<input type="text" th:field="*{description}">
+	<label >Precio:</label>
+	<input type="text" th:field="*{price}">
+	<input accept="image/png, image/jpeg" type="file" name="file">
+	<input type="hidden" th:field="*{photo}">
+	<img th:src="|data:image/*;base64,${item.photo}|"/>
+	<!-- <label >Foto:</label>
+	<input accept="image/png, image/jpeg" type="file" name="file" th:field="*{photo}"> -->
+	<input type="submit" value="Submit" />
+</form>
+
+</body>
+</html>

@@ -1,7 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ page import="es.wuolahpop.data.*"%>
-<%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -40,15 +39,6 @@
 
     </head>
 	<body>
-	
-		<%
-			//allow access only if session exists
-			if(session.getAttribute("user") == null){
-				response.sendRedirect("errLog.html");
-			}
-			
-		%>
-		
 		<!-- HEADER -->
 		<header>
 			<!-- TOP HEADER -->
@@ -88,114 +78,82 @@
 		</header>
 		<!-- /HEADER -->
 
-		<%
-			User user = (User) session.getAttribute("user");
-		%>
-		
-			<!-- SECTION -->
-		<div class="section">
+		<!-- NAVIGATION -->
+		<nav id="navigation">
 			<!-- container -->
 			<div class="container">
-					<!-- STORE -->
-					<div id="store" class="col-md-9">
-						<!-- mis productos-->
-						<h3>Mis productos</h3>
-						<div class="row">
-							<!-- product -->
-							<div class="col-md-12">
-									<form action="controlador" method="post">
-										<input type="hidden" name="userEmail" value= <%= user.getMail() %> >
-										<input type="hidden" name="typeOfQuery" value="showUserProducts" >
-										<button type="submit"></i>Ver Mis Productos</button>
-									</form>
-						<%
-							Item [] userItemsList = (Item[]) request.getAttribute("userItemsList");
-							if (userItemsList != null) {
-								
-							
-								for (Item myItem : userItemsList) {
-						%>
-									<div class="col-md-4 col-xs-6">
-										<div class="product">
-											<div class="product-img">
-												<img src="data:image/*;base64,<%=myItem.getPhoto() %>" />
-												
-											</div>
-		
-											<div class="product-body">
-												<p class="product-category"><%= myItem.getCategory() %></p>
-												<h3 class="product-name"><a href="#"> <%= myItem.getTitle() %> </a></h3>
-												<h4 class="product-price"><%= myItem.getPrice() %>€</h4>
-												<div class="product-rating">
-													<p class="product-category"><%= myItem.getVendor() %></p>
-												</div>
-												<div class="product-btns">
-													<p class="product-status"><%= myItem.getState() %></p>
-												</div>
-											</div>
-											<div class="add-to-cart">
-											
-											<form action="controlador" method="post">
-												<input type="hidden" name="typeOfQuery" value="selectProductToModify" >
-												<input type="hidden" name="itemToModifyID" value="<%= myItem.getItemId() %>" >
-												<button type="submit" class="add-btn"></i>Modificar</button>
-											</form>
-		
-												
-											</div>
-										<!-- /product -->
-										</div>
-									</div>
-						<% 		}
-							
-							}
-							
-							%>
-						
-								
-						</div>
-						<br><br>
-						<div class="row">
-							<div class="user-info">
-								<form action="ControllerServlet" method="post">
-									<h3>Mis datos</h3>
-									
-									Nombre <br><input type="text" value=<%=session.getAttribute("name")%> name="name" placeholder="Borja" size="50" maxlength="250"><br><br>
-									Primer Apellido<br><input type="text" value=<%=session.getAttribute("surname1")%> name="surname1" placeholder="Rivera" size="50" maxlength="250"><br><br>
-									Segundo Apellido<br><input type="text" value=<%=session.getAttribute("surname2")%> name="surname2" placeholder="Gonzalez" size="50" maxlength="250" ><br><br>
-									Ciudad<br><input type="text" value=<%=session.getAttribute("city")%> name="city" placeholder="Madrid" size="50" maxlength="250"><br><br>
-									Email<br><input type="email" value=<%=session.getAttribute("email")%> name="email" placeholder="borja@gmail.com" size="50" maxlength="250" readonly><br><br>
-									Contraseña<br><input type="password" value=<%=session.getAttribute("password")%> name="pswd" size="50" maxlength="250"><br><br>
-			
-									<input type="hidden" name="typeOfQuery" value="modifyUser" >
-									
-									<input type="submit" value="Modificar"><br><br>
-								</form>
-							</div>
-						</div>
-						
-						<div class="row">
-							<div class="user-drop-out">
-								<form action="ControllerServlet" method="post">
-									<h3>Darse de baja</h3>
-									
-									Email<br><input type="email" value=<%=session.getAttribute("email")%> name="email" placeholder="borja@gmail.com" size="50" maxlength="250" readonly><br><br>
-									Nombre<br><input type="text" value=<%=session.getAttribute("name")%> name="name" placeholder="borja" size="25" readonly><br><br>
-									<input type="hidden" name="typeOfQuery" value="dropOutUser" >
-									
-									<input type="submit" value="Confirmar"><br><br>
-								</form>
-							</div>
-						</div>
-						<!-- /mis productos -->
-					</div>
-					<!-- /STORE -->
+				<!-- responsive-nav -->
+				<div id="responsive-nav">
+					<!-- NAV -->
+					<ul class="main-nav nav navbar-nav">
+						<li class="active"><a href="#">Home</a></li>
+						<li><a href="#">Motor</a></li>
+						<li><a href="#">Moda</a></li>
+						<li><a href="#">Telefonía</a></li>
+						<li><a href="#">Informática y Electrónica</a></li>
+						<li><a href="#">Deporte y Ocio</a></li>
+						<li><a href="#">Hogar y Jardín</a></li>
+						<li><a href="#">Cine, Libros y Música</a></li>
+						<li><a href="#">TV, Audio y Foto</a></li>
+					</ul>
+					<!-- /NAV -->
 				</div>
-				<!-- /row -->
+				<!-- /responsive-nav -->
 			</div>
 			<!-- /container -->
-		</div>
-		<!-- /SECTION -->
+		</nav>
+		<!-- /NAVIGATION -->
+		
+		<%
+			Item itemToModify = (Item) request.getAttribute("itemToModify");
+		%>
+		
+			<form action="controlador" method="post" name="add-product-form" class="add-product-form" enctype="multipart/form-data">
+
+				  <legend><strong>Modificar Producto</strong></legend>
+				
+				  <label for="nombre">Titulo del producto</label> <br>  
+				  <input name="product-name" id="product-name" size="50" maxlength="250" type="text" value=<%= itemToModify.getTitle() %> ><br><br>
+				  
+				  <label for="product-category">Estado</label> 
+				  <select name="product-state-selection" >
+				  	<option value="<%= itemToModify.getState() %>"> <%= itemToModify.getState() %> </option>
+					<option value="Disponible">Disponible</option>
+					<option value="Vendido">Vendido</option>
+				  </select><br><br>
+				  
+				  <label for="product-category">Categoría</label> 
+				  <select name="product-category-selection" >
+					<option value="<%= itemToModify.getCategory() %>"> <%= itemToModify.getCategory() %> </option>
+					<option value="Motor">Motor</option>
+					<option value="Moda">Moda</option>
+					<option value="Telefonia">Telefonía</option>
+					<option value="Informatica y Electronica">Informática y Electrónica</option>
+					<option value="Deporte y Ocio">Deporte y Ocio</option>
+					<option value="Hogar y Jardin">Hogar y Jardín</option>
+					<option value="Cine, Libros y Musica">Cine, Libros y Música</option>
+					<option value="TV, Audio y Foto">TV, Audio y Foto</option>
+				  </select><br><br>
+				
+				  <label for="descripcion">Descripción</label> <br>  
+				  <textarea name="product-description" id="description" maxlength="500" cols="40" rows="5"  ><%= itemToModify.getDescription() %></textarea><br><br>
+				
+				  <label for="image">Foto</label> <br> 
+				  <input name="image-file" type="file" value=<%= itemToModify.getPhoto() %>><br><br>  
+				  
+				  <label for="precio">Precio</label> 
+				  <input size="5" id="precio" name="price" type="text" value=<%= itemToModify.getPrice() %>> <br><br>
+				  
+				  <label for="email">Confirmar email</label> 
+				  <input size="50" id="email" name="email" value=<%=session.getAttribute("email")%> type="text" readonly><br><br>
+				  
+				   <input type="hidden" name="itemId" value=<%= itemToModify.getItemId() %> >
+				  <input type="hidden" name="typeOfQuery" value="updateProduct" >
+				  <input type="submit" value="Modificar">
+				  
+
+				  
+			</form>
 				
 		<!-- FOOTER -->
 		<footer id="footer">

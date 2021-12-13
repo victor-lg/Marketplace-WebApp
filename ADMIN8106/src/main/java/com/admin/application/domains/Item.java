@@ -11,16 +11,16 @@ public class Item implements Serializable {
 
 	private String description;
 
-	private byte[] photo;
+	private String photo;
 
 	private float price;
 
 	private String state;
 
 	private String title;
-	
-	private User user;
 
+	private String vendor;
+	
 	public Item() {
 	}
 
@@ -48,13 +48,6 @@ public class Item implements Serializable {
 		this.description = description;
 	}
 
-	public byte[] getPhoto() {
-		return this.photo;
-	}
-
-	public void setPhoto(byte[] photo) {
-		this.photo = photo;
-	}
 
 	public float getPrice() {
 		return this.price;
@@ -80,12 +73,21 @@ public class Item implements Serializable {
 		this.title = title;
 	}
 
-	public User getUser() {
-		return this.user;
+
+	public String getVendor() {
+		return vendor;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setVendor(String vendor) {
+		this.vendor = vendor;
+	}
+
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
 	}
 
 }

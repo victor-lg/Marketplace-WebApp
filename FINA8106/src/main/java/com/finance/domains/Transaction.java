@@ -12,14 +12,14 @@ public class Transaction {
 	private String codPedido;
 	private String comprador;
 	private String vendedor;
-	private Float coste;
+	private float coste;
 	private String fechaTarjeta;
 	private String fechaTransaccion;
 	int cv2;
 	Long tarjeta;
 	
 	@PersistenceConstructor
-	public Transaction(String id, String codPedido, String comprador, String vendedor, Float coste,
+	public Transaction(String id, String codPedido, String comprador, String vendedor, float coste,
 			String fechaTarjeta, String fechaTransaccion, int cv2, Long tarjeta) {
 		
 		this.id = id;
@@ -66,7 +66,7 @@ public class Transaction {
 		this.vendedor = vendedor;
 	}
 
-	public Float getCoste() {
+	public float getCoste() {
 		return coste;
 	}
 

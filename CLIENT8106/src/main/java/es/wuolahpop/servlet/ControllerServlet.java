@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
@@ -26,6 +27,7 @@ import org.glassfish.jersey.client.ClientConfig;
 
 import es.wuolahpop.data.*;
 import es.wuolahpop.images.manager.ImagenenbbddManager;
+
 
 
 /**
@@ -74,19 +76,6 @@ public class ControllerServlet extends HttpServlet {
             
             RequestDispatcher reqDis;
             
-            webtarget = client.target("http://localhost:10603");
-    		webtargetPath = webtarget.path("catalogue").path("requestAll");
-            invocationBuilder = webtargetPath.request(MediaType.APPLICATION_JSON);
-            
-            responsews = invocationBuilder.get();
-            
-            Item [] itemsList = responsews.readEntity(Item[].class);
-            session = request.getSession(true);
-
-            session.setAttribute("itemsList", itemsList);
-
-            RequestDispatcher r1 = request.getRequestDispatcher("/store.jsp");
-    		r1.forward(request,response);
             
             
 			String typeOfOperation=request.getParameter("typeOfQuery");
@@ -107,28 +96,54 @@ public class ControllerServlet extends HttpServlet {
 		            
 		            // Llamada por get
 		            responsews = invocationBuilder.get();
-		            
-		            // Obtención del cuerpo de la respuesta
-		            userResponse  = responsews.readEntity(User.class);
-		            
-		            session = request.getSession(true);
-					session.setAttribute("user", userResponse);
-					
-					session.setAttribute("email", userResponse.getMail());
-					session.setAttribute("name", userResponse.getName());
-					session.setAttribute("surname1", userResponse.getSurname1());
-					session.setAttribute("surname2", userResponse.getSurname2());
-					session.setAttribute("city", userResponse.getCity());
-					session.setAttribute("password", userResponse.getPassword());
-					
+		            if(responsews.getStatus()==200) {
+		            	userResponse  = responsews.readEntity(User.class);
+			            
+			            session = request.getSession(true);
+						session.setAttribute("user", userResponse);
+						
+						session.setAttribute("email", userResponse.getMail());
+						session.setAttribute("name", userResponse.getName());
+						session.setAttribute("surname1", userResponse.getSurname1());
+						session.setAttribute("surname2", userResponse.getSurname2());
+						session.setAttribute("city", userResponse.getCity());
+						session.setAttribute("password", userResponse.getPassword());
+						
 
-		            if (userResponse.getPassword().equals(password)) {
-		            	reqDis = request.getRequestDispatcher("/store.jsp");
-						reqDis.forward(request, response);
-		            } else {
-		            	reqDis = request.getRequestDispatcher("/login.html");
+			            if (userResponse.getPassword().equals(password)) {
+			            	
+			            	//para mostrar los productos de la tienda despues de iniciar sesion
+				            webtarget = client.target("http://localhost:10603");
+				    		webtargetPath = webtarget.path("catalogue").path("requestAll");
+				            invocationBuilder = webtargetPath.request(MediaType.APPLICATION_JSON);
+				            
+				            responsews = invocationBuilder.get();
+				            
+				            Item [] itemsList = responsews.readEntity(Item[].class);
+				            session = request.getSession(true);
+
+				            session.setAttribute("itemsList", itemsList);
+
+				            RequestDispatcher r1 = request.getRequestDispatcher("/store.jsp");
+				    		r1.forward(request,response);
+				    		
+			            } else {
+			            	
+			            	reqDis = request.getRequestDispatcher("/login.html");
+							reqDis.forward(request, response);
+			            }
+		            }
+		            
+		            else {
+		            	request.setAttribute("errorCode", responsews.getStatus());
+		            	reqDis = request.getRequestDispatcher("/errPage.jsp");
 						reqDis.forward(request, response);
 		            }
+		            
+		            // Obtención del cuerpo de la respuesta
+		            
+		            
+		            
 		            
 					
 			  		
@@ -149,17 +164,33 @@ public class ControllerServlet extends HttpServlet {
 		            
 		            // Llamada por post
 		            responsews = invocationBuilder.post(Entity.entity(new_user,MediaType.APPLICATION_JSON));
-		            
-		            // Obtención del cuerpo de la respuesta
-		            userResponse  = responsews.readEntity(User.class);
+		            if(responsews.getStatus()==200) {
+		            	 // Obtención del cuerpo de la respuesta
+			            userResponse  = responsews.readEntity(User.class);
 
-		            System.out.println(userResponse);
+			            System.out.println(userResponse);
+			            
+			            session = request.getSession(true);
+						session.setAttribute("user", userResponse);
+						
+						session.setAttribute("email", userResponse.getMail());
+						session.setAttribute("name", userResponse.getName());
+						session.setAttribute("surname1", userResponse.getSurname1());
+						session.setAttribute("surname2", userResponse.getSurname2());
+						session.setAttribute("city", userResponse.getCity());
+						session.setAttribute("password", userResponse.getPassword());
+			            
+						RequestDispatcher r2 = request.getRequestDispatcher("/store.jsp");
+						r2.forward(request, response);
+		            }
 		            
-		            session = request.getSession(true);
-					session.setAttribute("user", userResponse);
+		            else {
+		            	request.setAttribute("errorCode", responsews.getStatus());
+		            	reqDis = request.getRequestDispatcher("/errPage.jsp");
+						reqDis.forward(request, response);
+		            }
 		            
-					reqDis = request.getRequestDispatcher("/store.jsp");
-					reqDis.forward(request, response);
+		           
 			  		
 			  		break;
 			  		
@@ -176,37 +207,82 @@ public class ControllerServlet extends HttpServlet {
 			            
 			            // Llamada por post
 			            responsews = invocationBuilder.post(Entity.entity(modified_user,MediaType.APPLICATION_JSON));
+			            if(responsews.getStatus()==200) {
+			            	// Obtención del cuerpo de la respuesta
+				            userResponse  = responsews.readEntity(User.class);
+				            
+				            session = request.getSession(true);
+							session.setAttribute("user", userResponse);
+				            
+				            session.setAttribute("email", userResponse.getMail());
+							session.setAttribute("name", userResponse.getName());
+							session.setAttribute("surname1", userResponse.getSurname1());
+							session.setAttribute("surname2", userResponse.getSurname2());
+							session.setAttribute("city", userResponse.getCity());
+							session.setAttribute("password", userResponse.getPassword());
+				            
+							RequestDispatcher r3 = request.getRequestDispatcher("/store.jsp");
+							r3.forward(request, response);
+			            }
 			            
-			            // Obtención del cuerpo de la respuesta
-			            userResponse  = responsews.readEntity(User.class);
+			            else {
+			            	request.setAttribute("errorCode", responsews.getStatus());
+			            	reqDis = request.getRequestDispatcher("/errPage.jsp");
+							reqDis.forward(request, response);
+			            }
 			            
-			            session = request.getSession(true);
-						session.setAttribute("user", userResponse);
 			            
-			            session.setAttribute("email", userResponse.getMail());
-						session.setAttribute("name", userResponse.getName());
-						session.setAttribute("surname1", userResponse.getSurname1());
-						session.setAttribute("surname2", userResponse.getSurname2());
-						session.setAttribute("city", userResponse.getCity());
-						session.setAttribute("password", userResponse.getPassword());
-			            
-						reqDis = request.getRequestDispatcher("/store.jsp");
-						reqDis.forward(request, response);
 			  		
 			  		break;
 			  		
 			  	case "dropOutUser":
 			  		webtarget = client.target("http://localhost:10602");
-		  			webtargetPath = webtarget.path("client").path("users").queryParam("mail", request.getParameter("email"));
+			  		
+			  		String name_to_drop = request.getParameter("name");
+		  			webtargetPath = webtarget.path("client").path("deleteUser").queryParam("name", request.getParameter("name"));
 		            invocationBuilder = webtargetPath.request(MediaType.APPLICATION_JSON);
 		            
 		            responsews = invocationBuilder.delete();
 		            
-		            // Obtención del cuerpo de la respuesta
-		            userResponse  = responsews.readEntity(User.class);
+		            if(responsews.getStatus()==200) {
+		            	userResponse  = responsews.readEntity(User.class);
+		            	
+		            	String email_to_drop = request.getParameter("email");
+		            	webtarget = client.target("http://localhost:10603");
+
+			  			webtargetPath = webtarget.path("catalogue").path("requestByVendor").queryParam("vendor", email_to_drop);
+			            invocationBuilder = webtargetPath.request(MediaType.APPLICATION_JSON);
+			            
+			            responsews = invocationBuilder.get();
+			            
+			            if(responsews.getStatus()==200) {
+			            	 Item [] itemsList = responsews.readEntity(Item[].class);
+
+			            	 for (Item myItem : itemsList) {
+			            		webtarget = client.target("http://localhost:10603");
+						  		webtargetPath = webtarget.path("catalogue").path("delete").queryParam("itemId", myItem.getItemId());
+						        invocationBuilder = webtargetPath.request(MediaType.APPLICATION_JSON);
+						        responsews = invocationBuilder.delete();
+			            	 }
+			            	 
+				             RequestDispatcher r4 =  request.getRequestDispatcher("/login.html");
+							 r4.forward(request, response);
+			            }
+			            
+			            else {
+			            	request.setAttribute("errorCode", responsews.getStatus());
+			            	reqDis = request.getRequestDispatcher("/errPage.jsp");
+							reqDis.forward(request, response);
+			            }
+			            
+
+		            }
+		            else {
+		            	request.setAttribute("errorCode", responsews.getStatus());
+		            	reqDis = request.getRequestDispatcher("/errPage.jsp");
+						reqDis.forward(request, response);
+		            }
 		            
-					reqDis = request.getRequestDispatcher("/login.html");
-					reqDis.forward(request, response);
 		  		
 		  		break;
 			  		
@@ -220,10 +296,13 @@ public class ControllerServlet extends HttpServlet {
 					String fecha_caducidad = request.getParameter("caducity");
 					String fecha_final = fecha_caducidad.replace("-", "");
 					
+					String precio = request.getParameter("price");
+					float precio_1 = Float.parseFloat(precio);
+					
 		            TransactionFromClient transaction = new TransactionFromClient(
 		            		request.getParameter("buyer"), 
 		            		request.getParameter("seller"), 
-		            		Long.valueOf(34), 
+		            		precio_1, 
 		            		fecha_final,
 		            		objSDF.format(_fechaActual).toString(), 
 		        			Integer.parseInt(request.getParameter("cv2")), 
@@ -232,22 +311,72 @@ public class ControllerServlet extends HttpServlet {
 		            
 		            // Llamada por post
 		            responsews = invocationBuilder.post(Entity.entity(transaction,MediaType.APPLICATION_JSON));
-		            
-		            // Obtención del cuerpo de la respuesta
-		            Transaction transactionResponse  = responsews.readEntity(Transaction.class);
-		            
 		           
-					reqDis = request.getRequestDispatcher("/store.jsp");
+		            
+				if (responsews.getStatus()==200) {
+					// Obtención del cuerpo de la respuesta
+					Transaction transactionResponse = responsews.readEntity(Transaction.class);
+					
+					// Actualizo el estado del producto tras haber sido vendido
+		            String item_sold = request.getParameter("itemIdSold");
+					webtarget = client.target("http://localhost:10603");
+		  			webtargetPath = webtarget.path("catalogue").path("requestById").queryParam("itemId", item_sold);
+		            invocationBuilder = webtargetPath.request(MediaType.APPLICATION_JSON);
+		            
+		            responsews = invocationBuilder.get();
+		            
+		            if (responsews.getStatus()==200) {
+		            	Item product_sold = responsews.readEntity(Item.class);
+			            
+			            webtarget = client.target("http://localhost:10603");
+			  			webtargetPath = webtarget.path("catalogue").path("changeState");
+			            invocationBuilder = webtargetPath.request(MediaType.APPLICATION_JSON);
+			            
+			            product_sold.setState("Vendido");
+			            
+			            responsews = invocationBuilder.post(Entity.entity(product_sold,MediaType.APPLICATION_JSON));
+			            
+			            if (responsews.getStatus()==200) {
+				            Item product_changed = responsews.readEntity(Item.class);
+				            
+							RequestDispatcher r5 = request.getRequestDispatcher("/store.jsp");
+							r5.forward(request, response);
+							
+			            } else {
+			            	request.setAttribute("errorCode", responsews.getStatus());
+			            	reqDis = request.getRequestDispatcher("/errPage.jsp");
+							reqDis.forward(request, response);
+			            }
+			            
+		            } else {
+		            	request.setAttribute("errorCode", responsews.getStatus());
+		            	reqDis = request.getRequestDispatcher("/errPage.jsp");
+						reqDis.forward(request, response);
+		            }
+		            
+				}
+				else {
+					reqDis = request.getRequestDispatcher("/errPage.html");
 					reqDis.forward(request, response);
+				}
+				break;
 		  		
-		  		break;
+			  	case "logOut":
+					try {
+						session = request.getSession(false);
+						
+						RequestDispatcher r6 = request.getRequestDispatcher("/login.html");
+						r6.forward(request, response);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
+					break;
+				
 		  		
 			  		
 			  }			 
-			 
-			 
-			
-			
+
 			
 		} catch (Exception e) {
 			System.out.println(e);

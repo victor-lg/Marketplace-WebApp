@@ -167,17 +167,17 @@ public class CatalogueController {
 		}
 	}
 	*/
-	/*
+	
 	@RequestMapping(value = "/requestByVendor", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<?> getItemsByVendor(@RequestParam(value = "vendor", required = true) String vendor) {
 		try {
-			return new ResponseEntity<>(daoItem.findByUserName(vendor), HttpStatus.OK);
+			return new ResponseEntity<>(daoItem.findByVendor(vendor), HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e);
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
-	*/
+	
 	/*
 	@RequestMapping("/requestByVendor")
 	public ResponseEntity<?> getItemsByVendor(@RequestBody Item item) {
@@ -202,10 +202,11 @@ public class CatalogueController {
 		}
 	}
 
-	@RequestMapping("/delete")
-	public ResponseEntity<?> deleteItemById(@RequestBody Item item) {
+	/*@RequestMapping(value = "/delete" , produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<?> deleteItemById(@RequestParam(value = "itemId", required = true) int itemId) {
 		try {
-			Item it = daoItem.findById(item.getItemId()).orElse(null);
+			Item it = daoItem.findByItemId(itemId);
 			if (it != null) {
 				daoItem.delete(it);
 			}
@@ -251,6 +252,66 @@ public class CatalogueController {
 			if (item.getPrice() != 0) {
 				it.setPrice(item.getPrice());
 			}
+			
+			 //if (item.getState() != null) { it.setState(item.getState()); }
+			 
+			daoItem.save(it);
+			return new ResponseEntity<>(it, HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}*/
+
+	@RequestMapping(value="/delete", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteItemById(@RequestParam(value = "itemId", required = true) int item_id) {
+		try {
+			Item it = daoItem.findById(item_id).orElse(null);
+			if (it != null) {
+				daoItem.delete(it);
+			}
+			return new ResponseEntity<>(it, HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@RequestMapping(value="/update", method = RequestMethod.PUT)
+	public ResponseEntity<?> updateItemById(@RequestBody Item item) {
+		try {
+			Item it = daoItem.findById(item.getItemId()).orElse(null);
+
+			if (item.getCategory() != null) {
+				ValidacionCategoria _validacionCategoria = new ValidacionCategoria();
+				if (_validacionCategoria.validarCategoria(item.getCategory())) {
+					it.setCategory(item.getCategory());
+				} else {
+					return new ResponseEntity<>("Categoría no válida: " + item.getCategory(), HttpStatus.BAD_REQUEST);
+				}
+			}
+
+			if (item.getTitle() != null) {
+				it.setTitle(item.getTitle());
+			}
+
+			if (item.getDescription() != null) {
+				if (item.getDescription().length() <= 500) {
+					it.setDescription(item.getDescription());
+				} else {
+					return new ResponseEntity<>(
+							"La descripción no debe sobrepasar los 500 caracteres: " + item.getDescription().length(),
+							HttpStatus.BAD_REQUEST);
+				}
+			}
+
+			if (item.getPhoto() != null) {
+				it.setPhoto(item.getPhoto());
+			}
+
+			if (item.getPrice() != 0) {
+				it.setPrice(item.getPrice());
+			}
 			/*
 			 * if (item.getState() != null) { it.setState(item.getState()); }
 			 */
@@ -261,7 +322,7 @@ public class CatalogueController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
-
+	
 	@RequestMapping("/changeState")
 	public ResponseEntity<?> updateItemStateById(@RequestBody Item item) {
 		try {

@@ -44,7 +44,7 @@ public class ClientController {
 	}
 	
 	@RequestMapping(value = "/user", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<?> getClientByName(@RequestParam(value = "mail", required = true) String mail) {
+	public ResponseEntity<?> getClientByMail(@RequestParam(value = "mail", required = true) String mail) {
 
 		try {
 			User found=userRepository.findUserByMail(mail);
@@ -146,10 +146,10 @@ public class ClientController {
 	}
 	
 	@RequestMapping(value = "/deleteUser",method = RequestMethod.DELETE, produces = "application/json")
-	public ResponseEntity<?> deleteClient(@RequestParam(value = "mail", required = true) String mail) {
+	public ResponseEntity<?> deleteClient(@RequestParam(value = "name", required = true) String name) {
 
 		try {
-			User found=userRepository.findUserByMail(mail);
+			User found=userRepository.findUserByName(name);
 			if(found != null) {
 				userRepository.delete(found);
 				return new ResponseEntity<>(found, HttpStatus.OK);

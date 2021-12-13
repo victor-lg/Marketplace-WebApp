@@ -1,0 +1,34 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Wuolahpop - Catálogo</title>
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+</head>
+<body>
+
+	<h1>LISTA DE ITEMS</h1>
+	
+	<table>
+		<tr>
+		    <th>Id</th>
+		    <th>Vendedor</th>
+		    <th>Título</th>
+		    <th>Categoría</th>
+		    <th>Descripción</th>
+		    <th>Foto</th>
+		    <th>Precio</th>
+		    <th>Estado</th>
+	  	</tr>
+		<tr th:each="item: ${items}">
+		    <td th:text="${item.itemId}" />
+		    <td th:text="${item.vendor}" />
+		    <td th:text="${item.title}" />
+		    <td th:text="${item.category}" />
+		    <td th:text="${item.description}" />
+		    <td><img th:src="|data:image/*;base64,${item.photo}|"/></td>
+		    <td th:text="${item.price}" />
+		    <td th:text="${item.state}" />
+		</tr>
+	</table>
+
+</body>
+</html>

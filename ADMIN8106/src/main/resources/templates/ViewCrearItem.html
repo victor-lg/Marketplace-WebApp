@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Wuolahpop - Crear Item</title>
+</head>
+<body>
+<form th:action="@{/pagina-post-item}" th:object="${item}" method="post" enctype="multipart/form-data">
+	<label >Titulo:</label>
+	<input type="text" th:field="*{title}">
+	<label >Categoría:</label>
+	<input type="text" th:field="*{category}">
+	<label >Descripción:</label>
+	<input type="text" th:field="*{description}">
+	<label >Precio:</label>
+	<input type="text" th:field="*{price}">
+	<label >Foto:</label>
+	<input accept="image/png, image/jpeg" type="file" name="file">
+	<label >Correo del vendedor:</label>
+	<input type="text" th:field="*{vendor}">
+	<input type="submit" value="Submit" />
+</form>
+
+</body>
+</html>

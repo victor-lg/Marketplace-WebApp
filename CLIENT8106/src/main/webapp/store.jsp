@@ -56,6 +56,10 @@
 						<li><a href="account.jsp"><i class="fa fa-user-o"></i>Mi Cuenta</a></li>
 						<li><a href="add-product.jsp"><i class="fa fa-user-o"></i>Añadir Producto</a></li>
 					</ul>
+					<form action="ControllerServlet" id="logOutForm" method="post" style="float: right;">
+						<input type="submit" value="Out" class="zmdi zmdi-power" style="width: 42px; margin-right: 10px; padding: 2px ">
+						<input type="hidden" name="typeOfQuery" value="logOut" >
+					</form>
 				</div>
 			</div>
 			<!-- /TOP HEADER -->
@@ -75,29 +79,6 @@
 							</div>
 						</div>
 						<!-- /LOGO -->
-
-						<!-- SEARCH BAR -->
-						<div class="col-md-12">
-							<div class="header-search">
-								<form>
-									<select class="input-select">
-										<option value="0">All Categories</option>
-										<option value="1">Motor</option>
-										<option value="2">Moda</option>
-										<option value="3">Telefonía</option>
-										<option value="4">Informática y Electrónica</option>
-										<option value="5">Deporte y Ocio</option>
-										<option value="6">Hogar y Jardín</option>
-										<option value="7">Cine, Libros y Música</option>
-										<option value="8">TV, Audio y Foto</option>
-										
-									</select>
-									<input class="input" placeholder="Search here">
-									<button class="search-btn">Search</button>
-								</form>
-							</div>
-						</div>
-						<!-- /SEARCH BAR -->
 
 					</div>
 					<!-- row -->
@@ -160,152 +141,59 @@
 			<div class="container">
 				<!-- row -->
 				<div class="row">
+				
 					<!-- ASIDE -->
 					<div id="aside" class="col-md-3">
-						<!-- aside Widget -->
-						<div class="aside">
-							<h3 class="aside-title">Categories</h3>
-							<div class="checkbox-filter">
-
-								<div class="input-checkbox">
-									<input type="checkbox" id="category-1">
-									<label for="category-1">
-										<span></span>
-										Laptops
-										<small>(120)</small>
-									</label>
-								</div>
-
-								<div class="input-checkbox">
-									<input type="checkbox" id="category-2">
-									<label for="category-2">
-										<span></span>
-										Smartphones
-										<small>(740)</small>
-									</label>
-								</div>
-
-								<div class="input-checkbox">
-									<input type="checkbox" id="category-3">
-									<label for="category-3">
-										<span></span>
-										Cameras
-										<small>(1450)</small>
-									</label>
-								</div>
-
-								<div class="input-checkbox">
-									<input type="checkbox" id="category-4">
-									<label for="category-4">
-										<span></span>
-										Accessories
-										<small>(578)</small>
-									</label>
-								</div>
-
-								<div class="input-checkbox">
-									<input type="checkbox" id="category-5">
-									<label for="category-5">
-										<span></span>
-										Laptops
-										<small>(120)</small>
-									</label>
-								</div>
-
-								<div class="input-checkbox">
-									<input type="checkbox" id="category-6">
-									<label for="category-6">
-										<span></span>
-										Smartphones
-										<small>(740)</small>
-									</label>
-								</div>
-							</div>
+						
+						<form action="controlador" method="post">
+							<h3 class="aside-title">Categoría</h3>
+							<select name="product-category-selection">
+								<option value="0">Seleccionar categoría</option>
+								<option value="Motor">Motor</option>
+								<option value="Moda">Moda</option>
+								<option value="Telefonia">Telefonía</option>
+								<option value="Informatica y Electronica">Informática y Electrónica</option>
+								<option value="Deporte y Ocio">Deporte y Ocio</option>
+								<option value="Hogar y Jardin">Hogar y Jardín</option>
+								<option value="Cine, Libros y Musica">Cine, Libros y Música</option>
+								<option value="TV, Audio y Foto">TV, Audio y Foto</option>
+							</select><br><br>
+							  <input type="hidden" name="typeOfQuery" value="searchByCategory" >
+							  <button type="submit">Search</button>
+							  
+						</form>
+					</div>
+					
+						<!-- ASIDE -->
+						<div id="aside" class="col-md-3">
+							
+							<form action="controlador" method="post">
+								<h3 class="aside-title">Titulo</h3>
+								<input type="text" name="titleSelected" placeholder="Portátil">
+								<input type="hidden" name="typeOfQuery" value="searchByTitle" >
+								<button type="submit">Search</button>
+								  
+							</form>
 						</div>
-						<!-- /aside Widget -->
 
-						<!-- aside Widget -->
-						<div class="aside">
-							<h3 class="aside-title">Price</h3>
-							<div class="price-filter">
-								<div id="price-slider"></div>
-								<div class="input-number price-min">
-									<input id="price-min" type="number">
-									<span class="qty-up">+</span>
-									<span class="qty-down">-</span>
-								</div>
-								<span>-</span>
-								<div class="input-number price-max">
-									<input id="price-max" type="number">
-									<span class="qty-up">+</span>
-									<span class="qty-down">-</span>
-								</div>
-							</div>
+						<!-- ASIDE -->
+						<div id="aside" class="col-md-3">
+							
+							<form action="controlador" method="post">
+								<h3 class="aside-title">Vendedor</h3>
+								<input type="text" name="vendorSelected" placeholder="antonio@gmail.com">
+								<input type="hidden" name="typeOfQuery" value="searchByVendor" >
+								<button type="submit">Search</button>
+								  
+							</form>
 						</div>
-						<!-- /aside Widget -->
-
-						<!-- aside Widget -->
-						<div class="aside">
-							<h3 class="aside-title">Brand</h3>
-							<div class="checkbox-filter">
-								<div class="input-checkbox">
-									<input type="checkbox" id="brand-1">
-									<label for="brand-1">
-										<span></span>
-										SAMSUNG
-										<small>(578)</small>
-									</label>
-								</div>
-								<div class="input-checkbox">
-									<input type="checkbox" id="brand-2">
-									<label for="brand-2">
-										<span></span>
-										LG
-										<small>(125)</small>
-									</label>
-								</div>
-								<div class="input-checkbox">
-									<input type="checkbox" id="brand-3">
-									<label for="brand-3">
-										<span></span>
-										SONY
-										<small>(755)</small>
-									</label>
-								</div>
-								<div class="input-checkbox">
-									<input type="checkbox" id="brand-4">
-									<label for="brand-4">
-										<span></span>
-										SAMSUNG
-										<small>(578)</small>
-									</label>
-								</div>
-								<div class="input-checkbox">
-									<input type="checkbox" id="brand-5">
-									<label for="brand-5">
-										<span></span>
-										LG
-										<small>(125)</small>
-									</label>
-								</div>
-								<div class="input-checkbox">
-									<input type="checkbox" id="brand-6">
-									<label for="brand-6">
-										<span></span>
-										SONY
-										<small>(755)</small>
-									</label>
-								</div>
-							</div>
-						</div>
-						<!-- /aside Widget -->
 
 						
 					</div>
 					<!-- /ASIDE -->
 
 					<!-- STORE -->
-					<div id="store" class="col-md-9">
+					<div id="store" class="col-md-12" style="padding: 0px">
 						<!-- store top filter -->
 						<div class="store-filter clearfix">
 							<div class="store-sort">
@@ -334,10 +222,19 @@
 
 						<!-- store products -->
 						
+						<h1>PRODUCTOS</h1>
+						<form action="controlador" method="post">
+							
+							<input type="hidden" name="typeOfQuery" value="getAllProducts" >
+							<input type="submit" value="Actualizar">
+						</form>
+						
 						
 						<%
 							Item [] itemsList = (Item[]) session.getAttribute("itemsList");
 							for (Item myItem : itemsList) {
+								if(myItem.getState().equals("Disponible")) {
+
 						%>
 							<div class="col-md-4 col-xs-6">
 								<div class="product">
@@ -354,19 +251,25 @@
 											<p class="product-category"><%= myItem.getVendor() %></p>
 										</div>
 										<div class="product-btns">
-											<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-											<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-											<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+											<p class="product-status"><%= myItem.getState() %></p>
 										</div>
 									</div>
 									<div class="add-to-cart">
-										<a href="checkout.jsp"><button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Comprar</button></a>
+									
+									<form action="controlador" method="post">
+										<input type="hidden" name="typeOfQuery" value="buyProduct" >
+										<input type="hidden" name="productID" value="<%= myItem.getItemId() %>" >
+										<button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Comprar</button>
+									</form>
+
 										
 									</div>
 								<!-- /product -->
 								</div>
 							</div>
-						<% 	}	%>
+						<% 	}	
+						}
+						%>
 						
 						
 					<!-- /STORE -->

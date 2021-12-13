@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@ page import="es.wuolahpop.data.*"%>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -97,6 +98,11 @@
 		</div>
 		<!-- /BREADCRUMB -->
 
+		<%
+			Item item = (Item) request.getAttribute("productToBuy");
+			User user = (User) session.getAttribute("user");
+		%>
+						
 		<!-- SECTION -->
 		<div class="section">
 			<!-- container -->
@@ -112,10 +118,10 @@
 								<h3 class="title">Datos de compra</h3>
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="buyer" placeholder="Nombre del comprador">
+								<input class="input" type="text" name="buyer" placeholder="Nombre del comprador" value= <%= user.getMail()%> readonly>
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="seller" placeholder="Nombre del vendedor">
+								<input class="input" type="text" name="seller" placeholder="Nombre del vendedor" value= <%= item.getVendor()%> readonly>
 							</div>
 							<div class="form-group">
 								<input class="input" type="number" name="card" placeholder="Número de tarjeta">
@@ -126,13 +132,18 @@
 							<div class="form-group">
 								<input class="input" type="number" name="cv2" placeholder="CV2">
 							</div>
+							<div class="form-group">
+								<input class="input" type="text" name="price" placeholder="Precio" value= <%= item.getPrice()%> readonly>
+							</div>
 						</div>
+							<input type="hidden" name="itemIdSold" value= <%= item.getItemId() %> >
 							<input type="hidden" name="typeOfQuery" value="newBankTransaction" >
 							<input class="primary-btn order-submit" type="submit" name="test" value="Comprar">
 						</form>
 						
 						<!-- /Billing Details -->
 					</div>
+					
 
 					<!-- Order Details -->
 					<div class="col-md-5 order-details">
@@ -146,8 +157,8 @@
 							</div>
 							<div class="order-products">
 								<div class="order-col">
-									<div>1x MacBook Pro</div>
-									<div>960.00€</div>
+									<div><%= item.getTitle() %></div>
+									<div><%= item.getPrice() %>€</div>
 								</div>
 							</div>
 							<div class="order-col">
@@ -156,7 +167,7 @@
 							</div>
 							<div class="order-col">
 								<div><strong>TOTAL</strong></div>
-								<div><strong class="order-total">960.00€</strong></div>
+								<div><strong class="order-total"><%= item.getPrice() %>€</strong></div>
 							</div>
 						</div>
 					</div>

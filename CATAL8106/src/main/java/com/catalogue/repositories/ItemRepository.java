@@ -16,5 +16,7 @@ public interface ItemRepository extends CrudRepository<Item, Integer> {
 	
 	public List<Item> findByDescription(String description);
 	
+	public List<Item> findByVendor(String vendor);
+	
 	
 }

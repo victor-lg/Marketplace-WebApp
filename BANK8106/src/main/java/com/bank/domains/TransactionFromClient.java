@@ -4,14 +4,14 @@ public class TransactionFromClient {
 	private String comprador;
 	
 	private String vendedor;
-	private Long coste;
+	private float coste;
 	private String fechaTarjeta;
 	private String fechaTransaccion;
 	int cv2;
 	Long tarjeta;
 	private String codigoPedido;
 	
-	public TransactionFromClient(String comprador, String vendedor, Long coste, String fechaTarjeta,
+	public TransactionFromClient(String comprador, String vendedor, float coste, String fechaTarjeta,
 			String fechaTransaccion, int cv2, Long tarjeta, String codigoPedido) {
 		super();
 		this.comprador = comprador;
@@ -36,7 +36,7 @@ public class TransactionFromClient {
 	public void setVendedor(String vendedor) {
 		this.vendedor = vendedor;
 	}
-	public Long getCoste() {
+	public float getCoste() {
 		return coste;
 	}
 	public void setCoste(Long coste) {

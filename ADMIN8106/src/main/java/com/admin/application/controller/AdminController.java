@@ -1,5 +1,8 @@
 package com.admin.application.controller;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.admin.application.domains.Item;
 import com.admin.application.domains.Transaction;
 import com.admin.application.domains.User;
 
@@ -94,7 +99,7 @@ public class AdminController {
 	}
 	
 	@RequestMapping (value = "pagina-update-usuario", method = RequestMethod.POST)
-	public String deleteUser(Model model, @ModelAttribute User us){
+	public String modifyUser(Model model, @ModelAttribute User us){
 		restTemplate.put("http://localhost:10602/client/modifyUser", us, User.class);
 		return "index";
 	}
@@ -107,5 +112,92 @@ public class AdminController {
 		Transaction[].class);
 		model.addAttribute("transacciones", listaTrans);
 		return "viewTodasTransacciones";
+	}
+	
+	// CATALOGO
+	
+	@RequestMapping (value = "pagina-todos-items", method = RequestMethod.GET)
+	public String returnTodosItems(Model model) {
+		Item[] listaIt = restTemplate.getForObject("http://localhost:10603/catalogue/requestAll",
+		Item[].class);
+		model.addAttribute("items", listaIt);
+		return "viewItems";
+	}
+	
+	@RequestMapping (value="pagina-crear-item", method=RequestMethod.GET)
+	public String mostrarElFormularioDelItem(Model modelo) {
+		modelo.addAttribute("item", new Item());
+		return "ViewCrearItem";
+	}
+	
+	@RequestMapping (value = "pagina-post-item", method = RequestMethod.POST)
+	public String saveItem(Model model, @ModelAttribute Item item, @RequestParam("file") MultipartFile file) {
+
+        InputStream fileContent = null;
+        byte[] imageBytes = null;
+		try {
+			fileContent = file.getInputStream();
+			imageBytes = new byte[(int) file.getSize()];
+			fileContent.read(imageBytes , 0, imageBytes.length);
+			fileContent.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        String image = Base64.getEncoder().encodeToString(imageBytes);
+		item.setPhoto(image);
+		restTemplate.postForObject("http://localhost:10603/catalogue/insertion", item, Item.class);
+		model.addAttribute("item", item);
+		return "index";
+	}
+	
+	@RequestMapping (value = "pagina-borrar-item", method = RequestMethod.GET)
+	public String mostrarElFormularioBorrarItem(){
+		return "ViewDeleteItem";
+	}
+	
+	@RequestMapping (value = "pagina-delete-item", method = RequestMethod.POST)
+	public String deleteItem(Model model, @RequestParam int itemId){
+		Item delIt = restTemplate.getForObject("http://localhost:10603/catalogue/requestById?itemId={itemId}",
+		Item.class, itemId);
+		if (delIt != null) {
+		restTemplate.delete("http://localhost:10603/catalogue/delete?itemId={itemId}", itemId);
+		}
+		return "index";
+	}
+	
+	@RequestMapping (value = "pagina-update-item", method = RequestMethod.GET)
+	public String mostrarElFormularioUpdateItem(Model modelo){
+		modelo.addAttribute("item", new Item());
+		return "ViewUpdateItem";
+	}
+	
+	@RequestMapping (value = "pagina-search-item", method = RequestMethod.POST)
+	public String searchItems(Model model, @RequestParam int itemId) {
+		Item item = restTemplate.getForObject("http://localhost:10603/catalogue/requestById?itemId={itemId}",
+		Item.class, itemId);
+		System.out.println(item.getPhoto());
+		model.addAttribute("item", item);
+		return "viewUpdateItem";
+	}
+	
+	@RequestMapping (value = "pagina-update-item", method = RequestMethod.POST)
+	public String modifyItem(Model model, @ModelAttribute Item item, @RequestParam(name ="file", required=false) MultipartFile file) throws IOException{
+		if (file.getBytes().length!=0) {
+			InputStream fileContent = null;
+			byte[] imageBytes = null;
+			try {
+				fileContent = file.getInputStream();
+				imageBytes = new byte[(int) file.getSize()];
+				fileContent.read(imageBytes , 0, imageBytes.length);
+				fileContent.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			String image = Base64.getEncoder().encodeToString(imageBytes);
+			item.setPhoto(image);
+		}
+		
+		restTemplate.put("http://localhost:10603/catalogue/update", item, Item.class);
+		return "index";
 	}
 }
