@@ -1,10 +1,8 @@
 package es.wuolahpop.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
@@ -36,7 +34,6 @@ import es.wuolahpop.data.*;
 @WebServlet("/ControllerServlet")
 public class ControllerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private HttpSession session;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -356,7 +353,8 @@ public class ControllerServlet extends HttpServlet {
 		            
 				}
 				else {
-					reqDis = request.getRequestDispatcher("/errPage.html");
+					request.setAttribute("errorCode", responsews.getStatus());
+					reqDis = request.getRequestDispatcher("/errPage.jsp");
 					reqDis.forward(request, response);
 				}
 				break;

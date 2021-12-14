@@ -232,8 +232,12 @@
 						
 						<%
 							Item [] itemsList = (Item[]) session.getAttribute("itemsList");
+							User user = (User) session.getAttribute("user");
 							for (Item myItem : itemsList) {
 								if(myItem.getState().equals("Disponible")) {
+									if( !myItem.getVendor().equals(user.getMail()) ) {
+										
+									
 
 						%>
 							<div class="col-md-4 col-xs-6">
@@ -267,7 +271,8 @@
 								<!-- /product -->
 								</div>
 							</div>
-						<% 	}	
+						<% 		}
+							}
 						}
 						%>
 						

@@ -1,3 +1,8 @@
+body{
+	background-color: white;
+	font-family: Arial;
+}
+
 .container{
 	display:flex;
 	justify-content: space-between;
@@ -9,13 +14,13 @@
 
 .enlace{
 	text-decoration: none;
-	color: blue;
+	color: #369681;
 }
 
-enlace:hover{
+.enlace:hover{
 	text-decoration: underline;
 }
 
-enlace:visited {
-  color: blue;
+.enlace:visited {
+  color: #369681;
 }
