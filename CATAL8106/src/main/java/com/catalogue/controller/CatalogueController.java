@@ -90,17 +90,6 @@ public class CatalogueController {
 		}
 	}
 	
-	/*
-	@RequestMapping("/requestByCategory")
-	public ResponseEntity<?> getItemsByCategory(@RequestBody Item item) {
-		try {
-			return new ResponseEntity<>(daoItem.findByCategory(item.getCategory()), HttpStatus.OK);
-		} catch (Exception e) {
-			System.out.println(e);
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-	}
-	*/
 	
 	@RequestMapping(value = "/requestByDescription", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<?> getItemsByDescription(@RequestParam(value = "description", required = true) String description) {
@@ -112,17 +101,6 @@ public class CatalogueController {
 		}
 	}
 	
-	/*
-	@RequestMapping("/requestByDescription")
-	public ResponseEntity<?> getItemsByDescription(@RequestBody Item item) {
-		try {
-			return new ResponseEntity<>(daoItem.findByDescription(item.getDescription()), HttpStatus.OK);
-		} catch (Exception e) {
-			System.out.println(e);
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-	}
-	*/
 	
 	@RequestMapping(value = "/requestByTitle", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<?> getItemsByTitle(@RequestParam(value = "title", required = true) String title) {
@@ -134,39 +112,6 @@ public class CatalogueController {
 		}
 	}
 	
-	/*
-	@RequestMapping("/requestByTitle")
-	public ResponseEntity<?> getItemsByTitle(@RequestBody Item item) {
-		try {
-			return new ResponseEntity<>(daoItem.findByTitle(item.getTitle()), HttpStatus.OK);
-		} catch (Exception e) {
-			System.out.println(e);
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-	}
-	*/
-	/*
-	@RequestMapping(value = "/requestByCity", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<?> getItemsByCity(@RequestParam(value = "city", required = true) String city) {
-		try {
-			return new ResponseEntity<>(daoItem.findByUserCity(city), HttpStatus.OK);
-		} catch (Exception e) {
-			System.out.println(e);
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-	}
-	*/
-	/*
-	@RequestMapping("/requestByCity")
-	public ResponseEntity<?> getItemsByCity(@RequestBody Item item) {
-		try {
-			return new ResponseEntity<>(daoItem.findByUserCity(item.getUser().getCity()), HttpStatus.OK);
-		} catch (Exception e) {
-			System.out.println(e);
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-	}
-	*/
 	
 	@RequestMapping(value = "/requestByVendor", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<?> getItemsByVendor(@RequestParam(value = "vendor", required = true) String vendor) {
@@ -178,17 +123,7 @@ public class CatalogueController {
 		}
 	}
 	
-	/*
-	@RequestMapping("/requestByVendor")
-	public ResponseEntity<?> getItemsByVendor(@RequestBody Item item) {
-		try {
-			return new ResponseEntity<>(daoItem.findByUserName(item.getUser().getName()), HttpStatus.OK);
-		} catch (Exception e) {
-			System.out.println(e);
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-	}
-	*/
+
 	
 	@RequestMapping(value = "/requestAll", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -202,66 +137,7 @@ public class CatalogueController {
 		}
 	}
 
-	/*@RequestMapping(value = "/delete" , produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public ResponseEntity<?> deleteItemById(@RequestParam(value = "itemId", required = true) int itemId) {
-		try {
-			Item it = daoItem.findByItemId(itemId);
-			if (it != null) {
-				daoItem.delete(it);
-			}
-			return new ResponseEntity<>(it, HttpStatus.OK);
-		} catch (Exception e) {
-			System.out.println(e);
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-	}
 
-	@RequestMapping("/update")
-	public ResponseEntity<?> updateItemById(@RequestBody Item item) {
-		try {
-			Item it = daoItem.findById(item.getItemId()).orElse(null);
-
-			if (item.getCategory() != null) {
-				ValidacionCategoria _validacionCategoria = new ValidacionCategoria();
-				if (_validacionCategoria.validarCategoria(item.getCategory())) {
-					it.setCategory(item.getCategory());
-				} else {
-					return new ResponseEntity<>("Categoría no válida: " + item.getCategory(), HttpStatus.BAD_REQUEST);
-				}
-			}
-
-			if (item.getTitle() != null) {
-				it.setTitle(item.getTitle());
-			}
-
-			if (item.getDescription() != null) {
-				if (item.getDescription().length() <= 500) {
-					it.setDescription(item.getDescription());
-				} else {
-					return new ResponseEntity<>(
-							"La descripción no debe sobrepasar los 500 caracteres: " + item.getDescription().length(),
-							HttpStatus.BAD_REQUEST);
-				}
-			}
-
-			if (item.getPhoto() != null) {
-				it.setPhoto(item.getPhoto());
-			}
-
-			if (item.getPrice() != 0) {
-				it.setPrice(item.getPrice());
-			}
-			
-			 //if (item.getState() != null) { it.setState(item.getState()); }
-			 
-			daoItem.save(it);
-			return new ResponseEntity<>(it, HttpStatus.OK);
-		} catch (Exception e) {
-			System.out.println(e);
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-	}*/
 
 	@RequestMapping(value="/delete", method = RequestMethod.DELETE)
 	public ResponseEntity<?> deleteItemById(@RequestParam(value = "itemId", required = true) int item_id) {
@@ -312,9 +188,7 @@ public class CatalogueController {
 			if (item.getPrice() != 0) {
 				it.setPrice(item.getPrice());
 			}
-			/*
-			 * if (item.getState() != null) { it.setState(item.getState()); }
-			 */
+
 			daoItem.save(it);
 			return new ResponseEntity<>(it, HttpStatus.OK);
 		} catch (Exception e) {
