@@ -1,17 +1,9 @@
 package es.wuolahpop.images.controller;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+
 import java.util.Base64;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -32,12 +24,8 @@ import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.client.ClientConfig;
 
-import es.wuolahpop.data.Imagenenbbdd;
 import es.wuolahpop.data.Item;
-import es.wuolahpop.data.ItemFromCatalogue;
-import es.wuolahpop.data.User;
-import es.wuolahpop.images.controller.*;
-import es.wuolahpop.images.manager.ImagenenbbddManager;
+
 
 /**
  * Servlet implementation class MainController

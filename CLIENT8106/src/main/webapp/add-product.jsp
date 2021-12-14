@@ -38,6 +38,15 @@
 
     </head>
 	<body>
+	
+		<%
+			//allow access only if session exists
+			if(session.getAttribute("user") == null){
+				response.sendRedirect("errLog.html");
+			}
+			
+		%>
+		
 		<!-- HEADER -->
 		<header>
 			<!-- TOP HEADER -->
