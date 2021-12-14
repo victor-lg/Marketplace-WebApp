@@ -341,7 +341,7 @@ public class MainController extends HttpServlet {
 	  			webtargetPath = webtarget.path("catalogue").path("delete").queryParam("itemId", itemID);
 	            invocationBuilder = webtargetPath.request(MediaType.APPLICATION_JSON);
 	            
-	            responsews = invocationBuilder.get();
+	            responsews = invocationBuilder.delete();
 	            if(responsews.getStatus()==200) {
 	            	itemResponse  = responsews.readEntity(Item.class);
 		            

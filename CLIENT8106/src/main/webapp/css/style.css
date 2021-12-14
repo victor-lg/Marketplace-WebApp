@@ -893,6 +893,7 @@ caption {
 
 .product .product-img>img {
   width: 100%;
+  height: 400px;
 }
 
 .product .product-img .product-label {

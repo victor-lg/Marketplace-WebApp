@@ -206,7 +206,7 @@ public class ControllerServlet extends HttpServlet {
 			            		request.getParameter("surname2"));
 			            
 			            // Llamada por post
-			            responsews = invocationBuilder.post(Entity.entity(modified_user,MediaType.APPLICATION_JSON));
+			            responsews = invocationBuilder.put(Entity.entity(modified_user,MediaType.APPLICATION_JSON));
 			            if(responsews.getStatus()==200) {
 			            	// Obtención del cuerpo de la respuesta
 				            userResponse  = responsews.readEntity(User.class);
@@ -238,8 +238,8 @@ public class ControllerServlet extends HttpServlet {
 			  	case "dropOutUser":
 			  		webtarget = client.target("http://localhost:10602");
 			  		
-			  		String name_to_drop = request.getParameter("name");
-		  			webtargetPath = webtarget.path("client").path("deleteUser").queryParam("name", request.getParameter("name"));
+			  		String email_to_drop = request.getParameter("email");
+		  			webtargetPath = webtarget.path("client").path("deleteUser").queryParam("mail", email_to_drop);
 		            invocationBuilder = webtargetPath.request(MediaType.APPLICATION_JSON);
 		            
 		            responsews = invocationBuilder.delete();
@@ -247,7 +247,7 @@ public class ControllerServlet extends HttpServlet {
 		            if(responsews.getStatus()==200) {
 		            	userResponse  = responsews.readEntity(User.class);
 		            	
-		            	String email_to_drop = request.getParameter("email");
+		            	
 		            	webtarget = client.target("http://localhost:10603");
 
 			  			webtargetPath = webtarget.path("catalogue").path("requestByVendor").queryParam("vendor", email_to_drop);

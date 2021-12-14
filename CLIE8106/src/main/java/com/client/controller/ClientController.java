@@ -124,7 +124,7 @@ public class ClientController {
 		}
 	}
 	
-	@RequestMapping(value = "/modifyUser", consumes = MediaType.APPLICATION_JSON_VALUE,method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/modifyUser", consumes = MediaType.APPLICATION_JSON_VALUE,method = RequestMethod.PUT, produces = "application/json")
 	public ResponseEntity<?> changeClient(@RequestBody User updatedUser) {
 
 		try {
@@ -146,10 +146,10 @@ public class ClientController {
 	}
 	
 	@RequestMapping(value = "/deleteUser",method = RequestMethod.DELETE, produces = "application/json")
-	public ResponseEntity<?> deleteClient(@RequestParam(value = "name", required = true) String name) {
+	public ResponseEntity<?> deleteClient(@RequestParam(value = "mail", required = true) String mail) {
 
 		try {
-			User found=userRepository.findUserByName(name);
+			User found=userRepository.findUserByMail(mail);
 			if(found != null) {
 				userRepository.delete(found);
 				return new ResponseEntity<>(found, HttpStatus.OK);

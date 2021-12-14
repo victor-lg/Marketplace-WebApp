@@ -33,6 +33,15 @@ CREATE TABLE IF NOT EXISTS `mysql81_06_wuolahpop`.`users` (
   PRIMARY KEY (`mail`))
 ENGINE = InnoDB;
 
+INSERT INTO users
+VALUES ("antonio@gmail.com", "1234", "Antonio", "Vega", "de la Cruz", "Madrid");
+INSERT INTO users
+VALUES ("fernando@gmail.com", "asdf", "Fernando", "Silva", "Gómez", "Barcelona");
+INSERT INTO users
+VALUES ("carlos@gmail.com", "12df", "Carlos", "Sosa", "Díaz", "Vigo");
+INSERT INTO users
+VALUES ("javier@gmail.com", "as34", "Javier", "Ruiz", "Romero", "Toledo");
+
 
 -- -----------------------------------------------------
 -- Table `mysql81_06_wuolahpop`.`items`
